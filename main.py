@@ -1,12 +1,12 @@
 #!/bin/python3
 import os
 import sys
-
+import office2john
 import bitstring
 import numpy as np
 
 import arrays
-import office2john
+
 
 password = b'testpassword'
 
@@ -37,23 +37,7 @@ def password_verifier(password):
 def create_xor_array(password):
     xor_key = xor_array
     index = password.length #questionable line
-    obfuscation_array = (0x00, 
-                         0x00, 
-                         0x00, 
-                         0x00, 
-                         0x00, 
-                         0x00, 
-                         0x00, 
-                         0x00,
-                         0x00, 
-                         0x00, 
-                         0x00, 
-                         0x00, 
-                         0x00, 
-                         0x00, 
-                         0x00, 
-                         0x00
-                         )
+
 
     if index % 1:
         temp = 0x7fff
