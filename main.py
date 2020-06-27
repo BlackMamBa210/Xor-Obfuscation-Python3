@@ -35,7 +35,7 @@ def password_verifier(password):
     return verifier ^ 0xCE4B
 
 def create_xor_array(password):
-    xor_key = xor_array
+    xor_key = xor_array #this one doesnt make too much sense #SET XorKey TO CreateXorKey_Method1(Password
     index = password.length #questionable line
 
 
@@ -44,7 +44,7 @@ def create_xor_array(password):
 
     if index % 2 == 1:
         temp = 0x7fff
-        obfuscation_array = PadArray
+        obfuscation_array = PadArray #I do not know how to set this one #SET ObfuscationArray[Index] TO XorRor(PadArray[0], Temp)
 
     index = index - 1
 
