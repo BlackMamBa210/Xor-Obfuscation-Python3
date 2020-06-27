@@ -5,7 +5,7 @@ import office2john
 import bitstring
 import numpy as np
 
-from arrays import * as hash_tables
+from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
 password = "testpassword"
 
@@ -37,19 +37,20 @@ def create_xor_array_method1(password):
         password
     )  # this one doesnt make too much sense #SET XorKey TO CreateXorKey_Method1(Password
     index = password.length  # questionable line
-    obfuscation_array = list(hash_tables.obfuscation_array)
+    temp_obfuscation_array = list(obfuscation_array)
 
     if index % 2 == 1:
-        temp = 0x7FFF # set temp to msb of xor_key
-        obfuscation_array[index] = xor_ror(list(PadArray)[0], temp)  # I do not know how to set this one #SET ObfuscationArray[Index] TO XorRor(PadArray[0], Temp)
+        temp = 0x7FFF  # set temp to msb of xor_key
+        temp_obfuscation_array[index] = xor_ror(
+            list(PadArray)[0], temp
+        )  # I do not know how to set this one #SET ObfuscationArray[Index] TO XorRor(PadArray[0], Temp)
         index -= 1
         # temp = lsb of xor_key
         password_last_char = password[password.length - 1]
-        obfuscation_array[index] = xor_ror(password_last_char, temp)
+        temp_obfuscation_array[index] = xor_ror(password_last_char, temp)
 
     while index > 0:
         index -= 1
-        
 
     if index % 1:
         temp = 0x7FFF
@@ -57,7 +58,7 @@ def create_xor_array_method1(password):
 
 
 def create_xor_key_method1(password):
-    xor_keys = hash_tables.InitialCode(len(password) - 1)
+    xor_keys = InitialCode(len(password) - 1)
 
     current_element = 0x00000068
 
@@ -77,7 +78,7 @@ def xor_ror(byte1, byte2):
 def ror(byte):
     temp1 = byte / 2
     temp2 = byte * 128
-    temp3 - temp1 | temp2
+    temp3 = temp1 | temp2
     return temp3 % 0x100
 
 
