@@ -70,9 +70,10 @@ def ror(byte):
     temp3 - temp1 | temp2
     return temp3 % 0x100
 
-#def encrypt_data(password, data, XorArrayIndex):
+def encrypt_data(password, data, XorArrayIndex):
     
-    #for index in data.length:
+    for index in data.length == 0:
+        value = data[index]
         
     
             
