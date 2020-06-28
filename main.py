@@ -73,7 +73,7 @@ def create_xor_array_method1(password):
         #RETURN ObfuscationArray
 
 def create_xor_key_method1(password):
-    xor_keys = list(InitialCode(len(password) - 1)) #cant get rid of this error
+    xor_keys = list(InitialCode(len(password) - 1)) #cant get rid of this errorr
 
     current_element = 0x00000068
 
