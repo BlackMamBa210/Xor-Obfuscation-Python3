@@ -10,7 +10,7 @@ from arrays import obfuscation_array, InitialCode, XorMatrix, pad_array
 password = "testpassword"
 
 
-def password_verifier(password):
+def create_password_verifier(password):
     verifier = b"0x0000"
 
     password_array = bitstring.BitArray([])
