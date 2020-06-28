@@ -5,7 +5,7 @@ import office2john
 import bitstring
 import numpy as np
 
-from arrays import obfuscation_array, InitialCode, XorMatrix, pad_array
+from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
 password = "testpassword"
 
@@ -42,8 +42,8 @@ def create_xor_array_method1(password):
     if index % 2 == 1:
         temp = 0x7FFF  # set temp to msb of xor_key
         temp_obfuscation_array[index] = xor_ror(
-            list(pad_array)[0], temp
-        )  # I do not know how to set this one #SET ObfuscationArray[Index] TO XorRor(pad_array[0], Temp)
+            list(PadArray)[0], temp
+        )  # I do not know how to set this one #SET ObfuscationArray[Index] TO XorRor(PadArray[0], Temp)
         index -= 1
         # temp = lsb of xor_key
         password_last_char = password[len(password) - 1]
@@ -59,12 +59,12 @@ def create_xor_array_method1(password):
 
     while pad_index > 0:
         #SET Temp TO most significant byte of XorKey
-        obfuscation_array[index] = xor_ror(pad_array[pad_index], temp)
+        obfuscation_array[index] = xor_ror(PadArray[pad_index], temp)
         index -= 1
         pad_index -= 1
 
     #SET Temp TO least significant byte of XorKey
-    obfuscation_array[index] = xor_ror(pad_array[pad_index], temp)
+    obfuscation_array[index] = xor_ror(PadArray[pad_index], temp)
     index -= 1
     pad_index -= 1
 
