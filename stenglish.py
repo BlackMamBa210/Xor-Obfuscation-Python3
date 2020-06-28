@@ -98,12 +98,16 @@ FUNCTION CreateXorKey_Method1
 END FUNCTION
 
 FUNCTION XorRor
-PARAMETERS byte1, byte2 RETURNS 8-bit unsigned integer
+    PARAMETERS byte1, byte2 
+    RETURNS 8-bit unsigned integer
+
     RETURN Ror(byte1 XOR byte2)
 END FUNCTION
+
 FUNCTION Ror
     PARAMETERS byte
-RETURNS 8-bit unsigned integer
+    RETURNS 8-bit unsigned integer
+    
     SET temp1 TO byte DIVIDED BY 2
     SET temp2 TO byte MULTIPLIED BY 128
     SET temp3 TO temp1 BITWISE OR temp2
@@ -112,26 +116,33 @@ END FUNCTION
 
 
 FUNCTION EncryptData_Method1
-PARAMETERS Password, Data, XorArrayIndex
-DECLARE XorArray as array of 8-bit unsigned integers
-SET XorArray TO CreateXorArray_Method1(Password)
-FOR Index FROM 0 TO Data.Length
-SET Value TO Data[Index]
-SET Value TO (Value rotate left 5 bits)
-SET Value TO Value BITWISE XOR XorArray[XorArrayIndex] SET DATA[Index] TO Value
-        INCREMENT XorArrayIndex
-SET XorArrayIndex TO XorArrayIndex MODULO 16 END FOR
+    PARAMETERS Password, Data, XorArrayIndex
+    DECLARE XorArray as array of 8-bit unsigned integers
+
+    SET XorArray TO CreateXorArray_Method1(Password)
+
+    FOR Index FROM 0 TO Data.Length
+        SET Value TO Data[Index]
+        SET Value TO (Value rotate left 5 bits)
+        SET Value TO Value BITWISE XOR XorArray[XorArrayIndex] SET DATA[Index] TO Value
+                INCREMENT XorArrayIndex
+        SET XorArrayIndex TO XorArrayIndex MODULO 16 
+    END FOR
 END FUNCTION
 
 
 FUNCTION DecryptData_Method1
-PARAMETERS Password, Data, XorArrayIndex
-DECLARE XorArray as array of 8-bit unsigned integers
-SET XorArray TO CreateXorArray_Method1(Password)
-FOR Index FROM 0 to Data.Length
-SET Value TO Data[Index]
-SET Value TO Value BITWISE XOR XorArray[XorArrayIndex] SET Value TO (Value rotate right 5 bits)
-SET Data[Index] TO Value
+    RPARAMETERS Password, Data, XorArrayIndex
+    DECLARE XorArray as array of 8-bit unsigned integers
+
+    SET XorArray TO CreateXorArray_Method1(Password)
+
+    FOR Index FROM 0 to Data.Length
+        SET Value TO Data[Index]
+        SET Value TO Value BITWISE XOR XorArray[XorArrayIndex] SET Value TO (Value rotate right 5 bits)
+        SET Data[Index] TO Value
+            
         INCREMENT XorArrayIndex
-SET XorArrayIndex TO XorArrayIndex MODULO 16 END FOR
+        SET XorArrayIndex TO XorArrayIndex MODULO 16 
+    END FOR
 END FUNCTION
