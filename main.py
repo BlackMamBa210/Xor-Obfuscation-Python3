@@ -46,11 +46,23 @@ def create_xor_array_method1(password):
         )  # I do not know how to set this one #SET ObfuscationArray[Index] TO XorRor(PadArray[0], Temp)
         index -= 1
         # temp = lsb of xor_key
-        password_last_char = password[password.length - 1]
+        password_last_char = password[len(password) - 1]
         temp_obfuscation_array[index] = xor_ror(password_last_char, temp)
 
     while index > 0:
         index -= 1
+
+    obfuscation_array[index] = xor_ror(password[index], temp)
+
+    while index == 15:
+        pad_index = 15 - len(password)
+
+    while pad_index > 0:
+        #SET Temp TO most significant byte of XorKey
+        obfuscation_array[index] = xor_ror(PadArray[pad_index], temp)
+        indec -= 1
+        pad_index -= 1
+
 
     if index % 1:
         temp = 0x7FFF
