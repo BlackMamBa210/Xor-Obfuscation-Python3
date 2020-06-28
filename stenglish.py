@@ -74,19 +74,26 @@ FUNCTION CreateXorArray_Method1
     RETURN ObfuscationArray
 END FUNCTION
 
-FUNCTION CreateXorKey_Method1 PARAMETERS Password
-RETURNS 16-bit unsigned integer
-DECLARE XorKey AS 16-bit unsigned integer
-SET XorKey TO InitialCode[Password.Length MINUS 1] 
-SET CurrentElement TO 0x00000068
-FOR EACH Char IN Password IN REVERSE ORDER FOR 7 iterations
-IF (Char BITWISE AND 0x40) IS NOT 0
-SET XorKey TO XorKey BITWISE XOR XorMatrix[CurrentElement]
+FUNCTION CreateXorKey_Method1 
+    PARAMETERS Password
+    RETURNS 16-bit unsigned integer
+
+    DECLARE XorKey AS 16-bit unsigned integer
+
+    SET XorKey TO InitialCode[Password.Length MINUS 1] 
+
+    SET CurrentElement TO 0x00000068
+
+    FOR EACH Char IN Password IN REVERSE ORDER 
+        FOR 7 iterations
+            IF (Char BITWISE AND 0x40) IS NOT 0
+                SET XorKey TO XorKey BITWISE XOR XorMatrix[CurrentElement]
             END IF
             SET Char TO Char MULTIPLIED BY 2
             DECREMENT CurrentElement
         END FOR
     END FOR
+
     RETURN XorKey
 END FUNCTION
 
