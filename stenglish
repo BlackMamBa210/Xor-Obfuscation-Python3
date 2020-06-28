@@ -38,7 +38,8 @@ SET Temp TO most significant byte of XorKey
 SET ObfuscationArray[Index] TO XorRor(PadArray[0], Temp)
         DECREMENT Index
 SET Temp TO least significant byte of XorKey
-SET PasswordLastChar TO Password[Password.Length MINUS 1] SET ObfuscationArray[Index] TO XorRor(PasswordLastChar, Temp)
+SET PasswordLastChar TO Password[Password.Length MINUS 1] 
+SET ObfuscationArray[Index] TO XorRor(PasswordLastChar, Temp)
 END IF
     WHILE Index IS GREATER THAN to 0
         DECREMENT Index
@@ -46,17 +47,21 @@ SET Temp TO most significant byte of XorKey
 SET ObfuscationArray[Index] TO XorRor(Password[Index], Temp)
         DECREMENT Index
 SET Temp TO least significant byte of XorKey
-SET ObfuscationArray[Index] TO XorRor(Password[Index], Temp) END WHILE
+SET ObfuscationArray[Index] TO XorRor(Password[Index], Temp) 
+END WHILE
 SET Index TO 15
-SET PadIndex TO 15 MINUS Password.Length WHILE PadIndex IS greater than 0
+SET PadIndex TO 15 MINUS Password.Length 
+WHILE PadIndex IS greater than 0
 SET Temp TO most significant byte of XorKey
-SET ObfuscationArray[Index] TO XorRor(PadArray[PadIndex], Temp) DECREMENT Index
+SET ObfuscationArray[Index] TO XorRor(PadArray[PadIndex], Temp) 
+DECREMENT Index
 DECREMENT PadIndex
 
 
 
 SET Temp TO least significant byte of XorKey
-SET ObfuscationArray[Index] TO XorRor(PadArray[PadIndex], Temp) DECREMENT Index
+SET ObfuscationArray[Index] TO XorRor(PadArray[PadIndex], Temp) 
+DECREMENT Index
 DECREMENT PadIndex
 END WHILE
     RETURN ObfuscationArray
