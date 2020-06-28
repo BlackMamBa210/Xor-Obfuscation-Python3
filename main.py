@@ -60,13 +60,9 @@ def create_xor_array_method1(password):
     while pad_index > 0:
         #SET Temp TO most significant byte of XorKey
         obfuscation_array[index] = xor_ror(PadArray[pad_index], temp)
-        indec -= 1
+        index -= 1
         pad_index -= 1
 
-
-    if index % 1:
-        temp = 0x7FFF
-    index = index - 1
 
 
 def create_xor_key_method1(password):
