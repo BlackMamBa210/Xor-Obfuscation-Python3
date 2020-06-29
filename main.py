@@ -9,28 +9,46 @@ from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
 password = "testpassword"
 
-
+#FUNCTION CreatePasswordVerifier_Method1 PARAMETERS Password
 def create_password_verifier(password):
+    #SET Verifier TO 0x0000
     verifier = b"0x0000"
 
+    #SET PasswordArray TO (empty array of bytes)
     password_array = bitstring.BitArray([])
+    #SET PasswordArray[0] TO Password.Length
     password_array[0] = len(password_array)
+    #APPEND Password TO PasswordArray
     password_array.append(password)
 
+    #FOR EACH PasswordByte IN PasswordArray IN REVERSE ORDER 
     for password_byte in reversed(password_array):
-        intermediate1 = 0
-
+        
+        #IF (Verifier BITWISE AND 0x4000) is 0x0000
         if verifier & b"0x4000" != b"0x0000":
+            #SET Intermediate1 TO 0
+            intermediate1 = 0
+        #ELSE
+        else:
+            #SET Intermediate1 TO 1
             intermediate1 = 1
-
+        #ENDIF
+        #SET Intermediate2 TO Verifier MULTIPLED BY 2 
         intermediate2 = verifier * 2
+        #SET most significant bit of Intermediate2 TO 0 #will come back to
         intermediate2 = (verifier * 2) & 0x7FFF
         intermediate2 = 0
+        #SET Intermediate3 TO Intermediate1 BITWISE OR Intermediate2
         intermediate3 = intermediate1 ^ intermediate2
+        #SET Verifier TO Intermediate3 BITWISE XOR PasswordByte 
         verifier = intermediate3 ^ password_byte
-        break
-    return verifier ^ 0xCE4B
 
+        #ENDFOR
+        break
+
+    #RETURN Verifier BITWISE XOR 0xCE4B
+    return verifier ^ 0xCE4B
+#END FUNCTION
 
 def create_xor_array_method1(password):
     xor_key = create_xor_key_method1(password) # this one doesnt make too much sense #SET XorKey TO CreateXorKey_Method1(Password
