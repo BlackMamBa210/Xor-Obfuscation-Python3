@@ -50,43 +50,78 @@ def create_password_verifier(password):
     return verifier ^ 0xCE4B
 #END FUNCTION
 
+#FUNCTION CreateXorArray_Method1
+#PARAMETERS Password
+#RETURNS array of 8-bit unsigned integers
+#DECLARE XorKey AS 16-bit unsigned integer
+#DECLARE ObfuscationArray AS array of 8-bit unsigned integers
 def create_xor_array_method1(password):
+    #SET XorKey TO CreateXorKey_Method1(Password)
     xor_key = create_xor_key_method1(password) # this one doesnt make too much sense #SET XorKey TO CreateXorKey_Method1(Password
+    #SET Index TO Password.Length
     index = password.length  # questionable line
     temp_obfuscation_array = list(obfuscation_array)
 
+    #IF Index MODULO 2 IS 1
     if index % 2 == 1:
+        #SET Temp TO most significant byte of XorKey
         temp = 0x7FFF  # set temp to msb of xor_key
-        temp_obfuscation_array[index] = xor_ror(
-            list(PadArray)[0], temp
-        )  # I do not know how to set this one #SET ObfuscationArray[Index] TO XorRor(PadArray[0], Temp)
+        #SET ObfuscationArray[Index] TO XorRor(PadArray[0], Temp)
+        temp_obfuscation_array[index] = xor_ror(list(PadArray)[0], temp)  # I do not know how to set this one #SET ObfuscationArray[Index] TO XorRor(PadArray[0], Temp)
+        #DECREMENT Index
         index -= 1
+        #SET Temp TO least significant byte of XorKey
         # temp = lsb of xor_key
+        #SET PasswordLastChar TO Password[Password.Length MINUS 1] 
         password_last_char = password[len(password) - 1]
+        #SET ObfuscationArray[Index] TO XorRor(PasswordLastChar, Temp)
         temp_obfuscation_array[index] = xor_ror(password_last_char, temp)
 
+
+    #END IF
+    #WHILE Index IS GREATER THAN to 0
     while index > 0:
+        #DECREMENT Index
         index -= 1
+        #SET Temp TO most significant byte of XorKey
 
-    list(obfuscation_array)[index] = xor_ror(password[index], temp)
+        #SET ObfuscationArray[Index] TO XorRor(Password[Index], Temp)
+        list(obfuscation_array)[index] = xor_ror(password[index], temp)
 
+        #DECREMENT Index
+        #SET Temp TO least significant byte of XorKey
+        #SET ObfuscationArray[Index] TO XorRor(Password[Index], Temp)
+
+    #END WHILE    
+    #SET Index TO 15
     while index == 15:
+        #SET PadIndex TO 15 MINUS Password.Length 
         pad_index = 15 - len(password)
 
+    #WHILE PadIndex IS greater than 0
     while pad_index > 0:
         #SET Temp TO most significant byte of XorKey
+
+        #SET ObfuscationArray[Index] TO XorRor(PadArray[PadIndex], Temp
         obfuscation_array[index] = xor_ror(PadArray[pad_index], temp)
+        #DECREMENT Index
         index -= 1
+        #DECREMENT PadIndex
         pad_index -= 1
 
     #SET Temp TO least significant byte of XorKey
+
+    #SET ObfuscationArray[Index] TO XorRor(PadArray[PadIndex], Temp)
     obfuscation_array[index] = xor_ror(PadArray[pad_index], temp)
+    #DECREMENT Index
     index -= 1
+    #DECREMENT PadIndex
     pad_index -= 1
 
     #these two lines dont make much sense. While what?
     #END WHILE
-        #RETURN ObfuscationArray
+    #RETURN ObfuscationArray
+#END FUNCTION
 
 def create_xor_key_method1(password):
     xor_keys = list(InitialCode)[len(password) - 1] #cant get rid of this error
