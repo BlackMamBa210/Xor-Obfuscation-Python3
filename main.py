@@ -123,19 +123,35 @@ def create_xor_array_method1(password):
     #RETURN ObfuscationArray
 #END FUNCTION
 
+#FUNCTION CreateXorKey_Method1 
+#PARAMETERS Password
+#RETURNS 16-bit unsigned integer
+#DECLARE XorKey AS 16-bit unsigned integer
 def create_xor_key_method1(password):
+    #SET XorKey TO InitialCode[Password.Length MINUS 1] 
     xor_keys = list(InitialCode)[len(password) - 1] #cant get rid of this error
 
+    #SET CurrentElement TO 0x00000068
     current_element = 0x00000068
 
+    #FOR EACH Char IN Password IN REVERSE ORDER
     for char in password[::-1]:
-        if char and 0x40 != 0:
-            xor_keys = xor_keys | XorMatrix
-        else:
-            char = char * 2
-            current_element - 1
-    return xor_keys
+        #FOR 7 iterations
+            #IF (Char BITWISE AND 0x40) IS NOT 0
+            if char and 0x40 != 0:
+                #SET XorKey TO XorKey BITWISE XOR XorMatrix[CurrentElement]
+                xor_keys = xor_keys | XorMatrix
+            #END IF
+            else:
+                #SET Char TO Char MULTIPLIED BY 2
+                char = char * 2
+                #DECREMENT CurrentElement
+                current_element - 1
+        return xor_keys
+    #END FOR
 
+    #RETURN XorKey
+#END FUNCTION
 
 def xor_ror(byte1, byte2):
     return ror(byte1 ^ byte2)
