@@ -153,16 +153,27 @@ def create_xor_key_method1(password):
     #RETURN XorKey
 #END FUNCTION
 
+#FUNCTION XorRor
+#PARAMETERS byte1, byte2 
+#RETURNS 8-bit unsigned integer
 def xor_ror(byte1, byte2):
+    #RETURN Ror(byte1 XOR byte2)
     return ror(byte1 ^ byte2)
+#END FUNCTION
 
-
+#FUNCTION Ror
+#PARAMETERS byte
+#RETURNS 8-bit unsigned integer
 def ror(byte):
+    #SET temp1 TO byte DIVIDED BY 2
     temp1 = byte / 2
+    #SET temp2 TO byte MULTIPLIED BY 128
     temp2 = byte * 128
+    #SET temp3 TO temp1 BITWISE OR temp2
     temp3 = temp1 | temp2
+    #RETURN temp3 MODULO 0x100
     return temp3 % 0x100
-
+#END FUNCTION
 
 # def encrypt_data(password, data, XorArrayIndex):
 
