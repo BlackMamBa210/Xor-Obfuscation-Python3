@@ -27,15 +27,13 @@ def create_password_verifier(password):
         intermediate2 = (verifier * 2) & 0x7FFF
         intermediate2 = 0
         intermediate3 = intermediate1 ^ intermediate2
-        verifier = intermediate3 ^ 0xCE4B
+        verifier = intermediate3 ^ password_byte
         break
     return verifier ^ 0xCE4B
 
 
 def create_xor_array_method1(password):
-    xor_key = create_xor_key_method1(
-        password
-    )  # this one doesnt make too much sense #SET XorKey TO CreateXorKey_Method1(Password
+    xor_key = create_xor_key_method1(password) # this one doesnt make too much sense #SET XorKey TO CreateXorKey_Method1(Password
     index = password.length  # questionable line
     temp_obfuscation_array = list(obfuscation_array)
 
@@ -52,7 +50,7 @@ def create_xor_array_method1(password):
     while index > 0:
         index -= 1
 
-    obfuscation_array[index] = xor_ror(password[index], temp)
+    list(obfuscation_array)[index] = xor_ror(password[index], temp)
 
     while index == 15:
         pad_index = 15 - len(password)
@@ -73,13 +71,13 @@ def create_xor_array_method1(password):
         #RETURN ObfuscationArray
 
 def create_xor_key_method1(password):
-    xor_keys = list(InitialCode(len(password) - 1)) #cant get rid of this error
+    xor_keys = list(InitialCode)[len(password) - 1] #cant get rid of this error
 
     current_element = 0x00000068
 
     for char in password[::-1]:
         if char and 0x40 != 0:
-            xor_keys = xor_key | XorMatrix
+            xor_keys = xor_keys | XorMatrix
         else:
             char = char * 2
             current_element - 1
@@ -115,6 +113,5 @@ def setBitNumber(n):
 
 
 if __name__ == "__main__":
-    password = os.system("python3 office2john.py easypasswd.xlsx")
-    print(password_verifier)
-    password_verifier("testpassword")
+    #password = os.system("python3 office2john.py easypasswd.xlsx")
+    create_password_verifier("testpassword")
