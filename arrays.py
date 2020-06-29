@@ -139,7 +139,7 @@ XorMatrix = [ 0xAEFC,
               0x48C4
             ]
 
-obfuscation_array = (0x00, 
+obfuscation_array = [0x00, 
                      0x00, 
                      0x00, 
                      0x00, 
@@ -155,4 +155,4 @@ obfuscation_array = (0x00,
                      0x00, 
                      0x00, 
                      0x00
-                    )
+                    ]
