@@ -147,7 +147,7 @@ def create_xor_key_method1(password):
                 char = char * 2
                 #DECREMENT CurrentElement
                 current_element - 1
-        return xor_keys
+            return xor_keys
     #END FOR
 
     #RETURN XorKey
