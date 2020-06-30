@@ -5,22 +5,23 @@ import office2john
 import bitstring
 import numpy as np
 
+
 from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
-password = "testpassword"
+password = "7e0da6b9673ca827556506d7332df0b25cd62504d3e94e265f445ce9285bb85b7384933c14128384c8c9a770688fba6c"
 
 # FUNCTION CreatePasswordVerifier_Method1 PARAMETERS Password
 def create_password_verifier(password):
     # SET Verifier TO 0x0000
     verifier = b"0x0000"
-
+    
     # SET PasswordArray TO (empty array of bytes)
     password_array = bitstring.BitArray([])
     # SET PasswordArray[0] TO Password.Length
     password_array[0] = len(password_array)
     # APPEND Password TO PasswordArray
     password_array.append(password)
-
+    print(password_array)
     # FOR EACH PasswordByte IN PasswordArray IN REVERSE ORDER
     for password_byte in reversed(password_array):
 
@@ -44,10 +45,11 @@ def create_password_verifier(password):
         verifier = intermediate3 ^ password_byte
 
         # ENDFOR
-
+    print(password_byte)
 
     # RETURN Verifier BITWISE XOR 0xCE4B
     return verifier ^ 0xCE4B
+    
 
 
 # END FUNCTION
@@ -74,7 +76,7 @@ def create_xor_array_method1(password):
         index -= 1
         # SET Temp TO least significant byte of XorKey
         # temp = lsb of xor_key
-        temp = findLSB
+        temp = xor_key.findLSB()
         # SET PasswordLastChar TO Password[Password.Length MINUS 1]
         password_last_char = password[len(password) - 1]
         # SET ObfuscationArray[Index] TO XorRor(PasswordLastChar, Temp)
@@ -209,7 +211,7 @@ def encrypt_data(password, data, XorArrayIndex):
         # SET XorArrayIndex TO XorArrayIndex MODULO 16
         XorArrayIndex = XorArrayIndex % 16
     # END FOR
-
+        
 
 # END FUNCTION
 
@@ -233,7 +235,7 @@ def decrypt_data_method1(password, data, XorArrayIndex):
         # SET XorArrayIndex TO XorArrayIndex MODULO 16
         XorArrayIndex = XorArrayIndex % 16
     # END FOR
-
+    
 
 # END FUNCTION
 
@@ -262,5 +264,6 @@ def setMSBto0(n):
 
 
 if __name__ == "__main__":
-    # password = os.system("python3 office2john.py easypasswd.xlsx")
-    create_password_verifier("testpassword")
+   # password = os.system("python3 office2john.py easypasswd.xlsx")
+   # print(create_password_verifier)
+   create_password_verifier(password)

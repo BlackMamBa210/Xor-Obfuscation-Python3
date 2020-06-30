@@ -124,8 +124,10 @@ FUNCTION EncryptData_Method1
     FOR Index FROM 0 TO Data.Length
         SET Value TO Data[Index]
         SET Value TO (Value rotate left 5 bits)
-        SET Value TO Value BITWISE XOR XorArray[XorArrayIndex] SET DATA[Index] TO Value
-                INCREMENT XorArrayIndex
+        SET Value TO Value BITWISE XOR XorArray[XorArrayIndex] 
+        SET DATA[Index] TO Value
+                
+        INCREMENT XorArrayIndex
         SET XorArrayIndex TO XorArrayIndex MODULO 16 
     END FOR
 END FUNCTION
@@ -139,7 +141,8 @@ FUNCTION DecryptData_Method1
 
     FOR Index FROM 0 to Data.Length
         SET Value TO Data[Index]
-        SET Value TO Value BITWISE XOR XorArray[XorArrayIndex] SET Value TO (Value rotate right 5 bits)
+        SET Value TO Value BITWISE XOR XorArray[XorArrayIndex] 
+        SET Value TO (Value rotate right 5 bits)
         SET Data[Index] TO Value
             
         INCREMENT XorArrayIndex
