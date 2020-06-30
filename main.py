@@ -95,7 +95,7 @@ def create_xor_array_method1(password):
 
         # END WHILE
         # SET Index TO 15
-        index == 15:
+        index == 15
         # SET PadIndex TO 15 MINUS Password.Length
         pad_index = 15 - len(password)
 
