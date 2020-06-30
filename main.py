@@ -59,11 +59,9 @@ def create_password_verifier(password):
 # DECLARE ObfuscationArray AS array of 8-bit unsigned integers
 def create_xor_array_method1(password):
     # SET XorKey TO CreateXorKey_Method1(Password)
-    xor_key = create_xor_key_method1(
-        password
-    )  # this one doesnt make too much sense #SET XorKey TO CreateXorKey_Method1(Password
+    xor_key = create_xor_key_method1(password)
     # SET Index TO Password.Length
-    index = password.length  # questionable line
+    index = password.length
     temp_obfuscation_array = list(obfuscation_array)
 
     # IF Index MODULO 2 IS 1
@@ -71,9 +69,7 @@ def create_xor_array_method1(password):
         # SET Temp TO most significant byte of XorKey
         temp = 0x7FFF  # set temp to msb of xor_key
         # SET ObfuscationArray[Index] TO XorRor(PadArray[0], Temp)
-        temp_obfuscation_array[index] = xor_ror(
-            list(PadArray)[0], temp
-        )  # I do not know how to set this one #SET ObfuscationArray[Index] TO XorRor(PadArray[0], Temp)
+        temp_obfuscation_array[index] = xor_ror(list(PadArray)[0], temp)
         # DECREMENT Index
         index -= 1
         # SET Temp TO least significant byte of XorKey
@@ -252,6 +248,13 @@ def findMsb(n):
 
 def findLSB(n):
     return n & -n
+
+
+def setMSBto0(n):
+    if n == 1:
+        return 0
+    result = lambda n: int("0" + bin(n)[3:], 2)
+    return result(n)
 
 
 if __name__ == "__main__":
