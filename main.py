@@ -176,9 +176,27 @@ def ror(byte):
 #END FUNCTION
 
 # def encrypt_data(password, data, XorArrayIndex):
+def encrypt_data(password, data, XorArrayIndex):
+    #SET XorArray TO CreateXorArray_Method1(Password)
+    xor_array = create_xor_array_method1
 
-# for index in data.length:
+    #FOR Index FROM 0 TO Data.Length
+    for index in data.length:
+        #SET Value TO Data[Index]
+        value = data[index]
+        #SET Value TO (Value rotate left 5 bits)
+        value << 5
+        #SET Value TO Value BITWISE XOR XorArray[XorArrayIndex] 
+        value = value ^ xor_array[XorArrayIndex]
+        #SET DATA[Index] TO Value
+        data[index] = value
 
+        #INCREMENT XorArrayIndex
+        XorArrayIndex += 1
+        #SET XorArrayIndex TO XorArrayIndex MODULO 16 
+        XorArrayIndex = XorArrayIndex % 16
+    #END FOR
+#END FUNCTION
 
 def setBitNumber(n):
     if n == 0:
