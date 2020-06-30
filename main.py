@@ -44,7 +44,7 @@ def create_password_verifier(password):
         verifier = intermediate3 ^ password_byte
 
         # ENDFOR
-        break
+
 
     # RETURN Verifier BITWISE XOR 0xCE4B
     return verifier ^ 0xCE4B
@@ -95,9 +95,9 @@ def create_xor_array_method1(password):
 
     # END WHILE
     # SET Index TO 15
-    while index == 15:
-        # SET PadIndex TO 15 MINUS Password.Length
-        pad_index = 15 - len(password)
+    index == 15:
+    # SET PadIndex TO 15 MINUS Password.Length
+    pad_index = 15 - len(password)
 
     # WHILE PadIndex IS greater than 0
     while pad_index > 0:
@@ -110,18 +110,18 @@ def create_xor_array_method1(password):
         # DECREMENT PadIndex
         pad_index -= 1
 
-    # SET Temp TO least significant byte of XorKey
+        # SET Temp TO least significant byte of XorKey
 
-    # SET ObfuscationArray[Index] TO XorRor(PadArray[PadIndex], Temp)
-    obfuscation_array[index] = xor_ror(PadArray[pad_index], temp)
-    # DECREMENT Index
-    index -= 1
-    # DECREMENT PadIndex
-    pad_index -= 1
+        # SET ObfuscationArray[Index] TO XorRor(PadArray[PadIndex], Temp)
+        obfuscation_array[index] = xor_ror(PadArray[pad_index], temp)
+        # DECREMENT Index
+        index -= 1
+        # DECREMENT PadIndex
+        pad_index -= 1
 
-    # these two lines dont make much sense. While what?
-    # END WHILE
-    # RETURN ObfuscationArray
+        # END WHILE
+        # RETURN ObfuscationArray
+    return obfuscation_array
 
 
 # END FUNCTION
