@@ -87,17 +87,17 @@ def create_xor_array_method1(password):
         # SET Temp TO most significant byte of XorKey
 
         # SET ObfuscationArray[Index] TO XorRor(Password[Index], Temp)
-        list(obfuscation_array)[index] = xor_ror(password[index], temp)
+        temp_obfuscation_array[index] = xor_ror(password[index], temp)
 
         # DECREMENT Index
         # SET Temp TO least significant byte of XorKey
         # SET ObfuscationArray[Index] TO XorRor(Password[Index], Temp)
 
-    # END WHILE
-    # SET Index TO 15
-    index == 15:
-    # SET PadIndex TO 15 MINUS Password.Length
-    pad_index = 15 - len(password)
+        # END WHILE
+        # SET Index TO 15
+        index == 15:
+        # SET PadIndex TO 15 MINUS Password.Length
+        pad_index = 15 - len(password)
 
     # WHILE PadIndex IS greater than 0
     while pad_index > 0:
