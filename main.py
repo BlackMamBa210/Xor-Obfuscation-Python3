@@ -67,13 +67,14 @@ def create_xor_array_method1(password):
     # IF Index MODULO 2 IS 1
     if index % 2 == 1:
         # SET Temp TO most significant byte of XorKey
-        temp = 0x7FFF  # set temp to msb of xor_key
+        temp = setMSBto0  # set temp to msb of xor_key
         # SET ObfuscationArray[Index] TO XorRor(PadArray[0], Temp)
         temp_obfuscation_array[index] = xor_ror(list(PadArray)[0], temp)
         # DECREMENT Index
         index -= 1
         # SET Temp TO least significant byte of XorKey
         # temp = lsb of xor_key
+        temp = findLSB
         # SET PasswordLastChar TO Password[Password.Length MINUS 1]
         password_last_char = password[len(password) - 1]
         # SET ObfuscationArray[Index] TO XorRor(PasswordLastChar, Temp)
@@ -85,13 +86,16 @@ def create_xor_array_method1(password):
         # DECREMENT Index
         index -= 1
         # SET Temp TO most significant byte of XorKey
-
+        temp = setMSBto0
         # SET ObfuscationArray[Index] TO XorRor(Password[Index], Temp)
         temp_obfuscation_array[index] = xor_ror(password[index], temp)
 
         # DECREMENT Index
+        index -= 1
         # SET Temp TO least significant byte of XorKey
+        temp = findLSB
         # SET ObfuscationArray[Index] TO XorRor(Password[Index], Temp)
+        temp_obfuscation_array[index] = xor_ror(password[index], temp)
 
         # END WHILE
         # SET Index TO 15
@@ -102,7 +106,7 @@ def create_xor_array_method1(password):
     # WHILE PadIndex IS greater than 0
     while pad_index > 0:
         # SET Temp TO most significant byte of XorKey
-
+        temp = setMSBto0
         # SET ObfuscationArray[Index] TO XorRor(PadArray[PadIndex], Temp
         obfuscation_array[index] = xor_ror(PadArray[pad_index], temp)
         # DECREMENT Index
@@ -111,7 +115,7 @@ def create_xor_array_method1(password):
         pad_index -= 1
 
         # SET Temp TO least significant byte of XorKey
-
+        temp = findLSB
         # SET ObfuscationArray[Index] TO XorRor(PadArray[PadIndex], Temp)
         obfuscation_array[index] = xor_ror(PadArray[pad_index], temp)
         # DECREMENT Index
