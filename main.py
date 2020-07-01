@@ -13,22 +13,35 @@ password = "7e0da6b9673ca827556506d7332df0b25cd62504d3e94e265f445ce9285bb85b7384
 # FUNCTION CreatePasswordVerifier_Method1 PARAMETERS Password
 def create_password_verifier(password):
     # SET Verifier TO 0x0000
-    verifier = b"0x0000"
-    
+    verifier = 0x0000
+
     # SET PasswordArray TO (empty array of bytes)
     password_array = bytearray()
+<<<<<<< HEAD
     # SET PasswordArray[0] TO Password.Length
     password_array[0] = len(password)
     # APPEND Password TO PasswordArray
     password_array.extend(password).append(password)
     print(password_array)
+=======
+
+    password_array.append(len(password))
+    password_array.extend(password.encode("utf-8"))
+
+>>>>>>> 89ecde1c30f0f8170e2124da088af1e3717ee0e5
     # FOR EACH PasswordByte IN PasswordArray IN REVERSE ORDER
     for password_byte in reversed(password_array):
+        intermediate1 = 0
 
         # IF (Verifier BITWISE AND 0x4000) is 0x0000
+<<<<<<< HEAD
         if verifier and b"0x4000" != b"0x0000":
             # SET Intermediate1 TO 0
+=======
+        if verifier & 0x4000 != 0x0000:
+>>>>>>> 89ecde1c30f0f8170e2124da088af1e3717ee0e5
             intermediate1 = 0
+            # SET Intermediate1 TO 0
         # ELSE
         else:
             # SET Intermediate1 TO 1
@@ -37,11 +50,11 @@ def create_password_verifier(password):
         # SET Intermediate2 TO Verifier MULTIPLED BY 2
         intermediate2 = verifier * 2
         # SET most significant bit of Intermediate2 TO 0 #will come back to
-        intermediate2 = (verifier * 2) & 0x7FFF
-        intermediate2 = 0
+        intermediate2 = setMSBto0(0)
         # SET Intermediate3 TO Intermediate1 BITWISE OR Intermediate2
         intermediate3 = intermediate1 ^ intermediate2
         # SET Verifier TO Intermediate3 BITWISE XOR PasswordByte
+        print(type(intermediate3))
         verifier = intermediate3 ^ password_byte
 
         # ENDFOR
@@ -49,7 +62,6 @@ def create_password_verifier(password):
 
     # RETURN Verifier BITWISE XOR 0xCE4B
     return verifier ^ 0xCE4B
-    
 
 
 # END FUNCTION
@@ -100,15 +112,14 @@ def create_xor_array_method1(password):
         temp_obfuscation_array[index] = xor_ror(password[index], temp)
 
         # END WHILE
-        # SET Index TO 15
-        index == 15
-        # SET PadIndex TO 15 MINUS Password.Length
-        pad_index = 15 - len(password)
-
+    # SET Index TO 15
+    index == 15
+    # SET PadIndex TO 15 MINUS Password.Length
+    pad_index = 15 - len(password)
     # WHILE PadIndex IS greater than 0
     while pad_index > 0:
         # SET Temp TO most significant byte of XorKey
-        temp = setMSBto0
+        temp = setMSBto0(xor_key)
         # SET ObfuscationArray[Index] TO XorRor(PadArray[PadIndex], Temp
         obfuscation_array[index] = xor_ror(PadArray[pad_index], temp)
         # DECREMENT Index
@@ -117,7 +128,7 @@ def create_xor_array_method1(password):
         pad_index -= 1
 
         # SET Temp TO least significant byte of XorKey
-        temp = findLSB
+        temp = findLSB(xor_key)
         # SET ObfuscationArray[Index] TO XorRor(PadArray[PadIndex], Temp)
         obfuscation_array[index] = xor_ror(PadArray[pad_index], temp)
         # DECREMENT Index
@@ -125,12 +136,10 @@ def create_xor_array_method1(password):
         # DECREMENT PadIndex
         pad_index -= 1
 
-        # END WHILE
-        # RETURN ObfuscationArray
+    # END WHILE
+    # RETURN ObfuscationArray
     return obfuscation_array
 
-
-# END FUNCTION
 
 # FUNCTION CreateXorKey_Method1
 # PARAMETERS Password
@@ -211,7 +220,7 @@ def encrypt_data(password, data, XorArrayIndex):
         # SET XorArrayIndex TO XorArrayIndex MODULO 16
         XorArrayIndex = XorArrayIndex % 16
     # END FOR
-        
+
 
 # END FUNCTION
 
@@ -220,7 +229,6 @@ def encrypt_data(password, data, XorArrayIndex):
 def decrypt_data_method1(password, data, XorArrayIndex):
     # SET XorArray TO CreateXorArray_Method1(Password)
     xor_array = create_xor_array_method1(password)
-
     # FOR Index FROM 0 to Data.Length
     for index in data.length:
         # SET Value TO Data[Index]
@@ -235,7 +243,7 @@ def decrypt_data_method1(password, data, XorArrayIndex):
         # SET XorArrayIndex TO XorArrayIndex MODULO 16
         XorArrayIndex = XorArrayIndex % 16
     # END FOR
-    
+
 
 # END FUNCTION
 
@@ -264,6 +272,6 @@ def setMSBto0(n):
 
 
 if __name__ == "__main__":
-   # password = os.system("python3 office2john.py easypasswd.xlsx")
-   # print(create_password_verifier)
-   create_password_verifier(password)
+    # password = os.system("python3 office2john.py easypasswd.xlsx")
+
+    print(create_password_verifier("testpassword"))
