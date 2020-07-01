@@ -12,22 +12,24 @@ password = "testpassword"
 # FUNCTION CreatePasswordVerifier_Method1 PARAMETERS Password
 def create_password_verifier(password):
     # SET Verifier TO 0x0000
-    verifier = b"0x0000"
+    verifier = 0x0000
 
     # SET PasswordArray TO (empty array of bytes)
-    password_array = bitstring.BitArray([])
-    # SET PasswordArray[0] TO Password.Length
-    password_array[0] = len(password_array)
-    # APPEND Password TO PasswordArray
-    password_array.append(password)
+    password_array = bytearray()
+    print(password_array)
+    print(len(password))
+    print(bytes(len(password)))
+    password_array.append(len(password))
+    password_array.extend(password.encode("utf-8"))
 
     # FOR EACH PasswordByte IN PasswordArray IN REVERSE ORDER
     for password_byte in reversed(password_array):
+        intermediate1 = 0
 
         # IF (Verifier BITWISE AND 0x4000) is 0x0000
-        if verifier & b"0x4000" != b"0x0000":
-            # SET Intermediate1 TO 0
+        if verifier & 0x4000 != 0x0000:
             intermediate1 = 0
+            # SET Intermediate1 TO 0
         # ELSE
         else:
             # SET Intermediate1 TO 1
@@ -36,11 +38,11 @@ def create_password_verifier(password):
         # SET Intermediate2 TO Verifier MULTIPLED BY 2
         intermediate2 = verifier * 2
         # SET most significant bit of Intermediate2 TO 0 #will come back to
-        intermediate2 = (verifier * 2) & 0x7FFF
-        intermediate2 = 0
+        intermediate2 = setMSBto0(0)
         # SET Intermediate3 TO Intermediate1 BITWISE OR Intermediate2
         intermediate3 = intermediate1 ^ intermediate2
         # SET Verifier TO Intermediate3 BITWISE XOR PasswordByte
+        print(type(intermediate3))
         verifier = intermediate3 ^ password_byte
 
         # ENDFOR
@@ -214,7 +216,6 @@ def encrypt_data(password, data, XorArrayIndex):
 def decrypt_data_method1(password, data, XorArrayIndex):
     # SET XorArray TO CreateXorArray_Method1(Password)
     xor_array = create_xor_array_method1(password)
-
     # FOR Index FROM 0 to Data.Length
     for index in data.length:
         # SET Value TO Data[Index]
@@ -259,4 +260,5 @@ def setMSBto0(n):
 
 if __name__ == "__main__":
     # password = os.system("python3 office2john.py easypasswd.xlsx")
-    create_password_verifier("testpassword")
+
+    print(create_password_verifier("testpassword"))
