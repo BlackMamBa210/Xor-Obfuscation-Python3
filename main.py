@@ -16,11 +16,11 @@ def create_password_verifier(password):
     verifier = b"0x0000"
     
     # SET PasswordArray TO (empty array of bytes)
-    password_array = bitstring.BitArray([])
+    password_array = bitstring.BitArray([len(password_array)])
     # SET PasswordArray[0] TO Password.Length
-    password_array[0] = len(password_array)
+    
     # APPEND Password TO PasswordArray
-    password_array.append(password)
+    
     print(password_array)
     # FOR EACH PasswordByte IN PasswordArray IN REVERSE ORDER
     for password_byte in reversed(password_array):
