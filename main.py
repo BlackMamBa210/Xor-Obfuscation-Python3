@@ -17,29 +17,16 @@ def create_password_verifier(password):
 
     # SET PasswordArray TO (empty array of bytes)
     password_array = bytearray()
-<<<<<<< HEAD
-    # SET PasswordArray[0] TO Password.Length
-    password_array[0] = len(password)
-    # APPEND Password TO PasswordArray
-    password_array.extend(password).append(password)
-    print(password_array)
-=======
 
     password_array.append(len(password))
     password_array.extend(password.encode("utf-8"))
 
->>>>>>> 89ecde1c30f0f8170e2124da088af1e3717ee0e5
     # FOR EACH PasswordByte IN PasswordArray IN REVERSE ORDER
     for password_byte in reversed(password_array):
         intermediate1 = 0
 
         # IF (Verifier BITWISE AND 0x4000) is 0x0000
-<<<<<<< HEAD
-        if verifier and b"0x4000" != b"0x0000":
-            # SET Intermediate1 TO 0
-=======
         if verifier & 0x4000 != 0x0000:
->>>>>>> 89ecde1c30f0f8170e2124da088af1e3717ee0e5
             intermediate1 = 0
             # SET Intermediate1 TO 0
         # ELSE
