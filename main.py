@@ -5,9 +5,10 @@ import office2john
 import bitstring
 import numpy as np
 
+
 from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
-password = "testpassword"
+password = "7e0da6b9673ca827556506d7332df0b25cd62504d3e94e265f445ce9285bb85b7384933c14128384c8c9a770688fba6c"
 
 # FUNCTION CreatePasswordVerifier_Method1 PARAMETERS Password
 def create_password_verifier(password):
@@ -16,9 +17,7 @@ def create_password_verifier(password):
 
     # SET PasswordArray TO (empty array of bytes)
     password_array = bytearray()
-    print(password_array)
-    print(len(password))
-    print(bytes(len(password)))
+
     password_array.append(len(password))
     password_array.extend(password.encode("utf-8"))
 
@@ -46,7 +45,7 @@ def create_password_verifier(password):
         verifier = intermediate3 ^ password_byte
 
         # ENDFOR
-        break
+    print(password_byte)
 
     # RETURN Verifier BITWISE XOR 0xCE4B
     return verifier ^ 0xCE4B
@@ -69,13 +68,14 @@ def create_xor_array_method1(password):
     # IF Index MODULO 2 IS 1
     if index % 2 == 1:
         # SET Temp TO most significant byte of XorKey
-        temp = 0x7FFF  # set temp to msb of xor_key
+        temp = setMSBto0  # set temp to msb of xor_key
         # SET ObfuscationArray[Index] TO XorRor(PadArray[0], Temp)
         temp_obfuscation_array[index] = xor_ror(list(PadArray)[0], temp)
         # DECREMENT Index
         index -= 1
         # SET Temp TO least significant byte of XorKey
         # temp = lsb of xor_key
+        temp = xor_key.findLSB()
         # SET PasswordLastChar TO Password[Password.Length MINUS 1]
         password_last_char = password[len(password) - 1]
         # SET ObfuscationArray[Index] TO XorRor(PasswordLastChar, Temp)
@@ -87,24 +87,26 @@ def create_xor_array_method1(password):
         # DECREMENT Index
         index -= 1
         # SET Temp TO most significant byte of XorKey
-
+        temp = setMSBto0
         # SET ObfuscationArray[Index] TO XorRor(Password[Index], Temp)
-        list(obfuscation_array)[index] = xor_ror(password[index], temp)
+        temp_obfuscation_array[index] = xor_ror(password[index], temp)
 
         # DECREMENT Index
+        index -= 1
         # SET Temp TO least significant byte of XorKey
+        temp = findLSB
         # SET ObfuscationArray[Index] TO XorRor(Password[Index], Temp)
+        temp_obfuscation_array[index] = xor_ror(password[index], temp)
 
-    # END WHILE
+        # END WHILE
     # SET Index TO 15
-    while index == 15:
-        # SET PadIndex TO 15 MINUS Password.Length
-        pad_index = 15 - len(password)
-
+    index == 15
+    # SET PadIndex TO 15 MINUS Password.Length
+    pad_index = 15 - len(password)
     # WHILE PadIndex IS greater than 0
     while pad_index > 0:
         # SET Temp TO most significant byte of XorKey
-
+        temp = setMSBto0(xor_key)
         # SET ObfuscationArray[Index] TO XorRor(PadArray[PadIndex], Temp
         obfuscation_array[index] = xor_ror(PadArray[pad_index], temp)
         # DECREMENT Index
@@ -112,21 +114,19 @@ def create_xor_array_method1(password):
         # DECREMENT PadIndex
         pad_index -= 1
 
-    # SET Temp TO least significant byte of XorKey
+        # SET Temp TO least significant byte of XorKey
+        temp = findLSB(xor_key)
+        # SET ObfuscationArray[Index] TO XorRor(PadArray[PadIndex], Temp)
+        obfuscation_array[index] = xor_ror(PadArray[pad_index], temp)
+        # DECREMENT Index
+        index -= 1
+        # DECREMENT PadIndex
+        pad_index -= 1
 
-    # SET ObfuscationArray[Index] TO XorRor(PadArray[PadIndex], Temp)
-    obfuscation_array[index] = xor_ror(PadArray[pad_index], temp)
-    # DECREMENT Index
-    index -= 1
-    # DECREMENT PadIndex
-    pad_index -= 1
-
-    # these two lines dont make much sense. While what?
     # END WHILE
     # RETURN ObfuscationArray
+    return obfuscation_array
 
-
-# END FUNCTION
 
 # FUNCTION CreateXorKey_Method1
 # PARAMETERS Password

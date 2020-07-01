@@ -2,3 +2,4 @@
 .vscode/.ropeproject
 __pycache__
 DS_Store
+debug.log
