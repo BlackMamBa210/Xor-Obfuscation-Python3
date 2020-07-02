@@ -8,7 +8,9 @@ import numpy as np
 
 from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
-password = "7e0da6b9673ca827556506d7332df0b25cd62504d3e94e265f445ce9285bb85b7384933c14128384c8c9a770688fba6c"
+password = list(bytes(b"7e0da6b9673ca827556506d7332df0b25cd62504d3e94e265f445ce9285bb85b7384933c14128384c8c9a770688fba6c"))
+print(password)
+
 
 # FUNCTION CreatePasswordVerifier_Method1 PARAMETERS Password
 def create_password_verifier(password):
@@ -26,7 +28,7 @@ def create_password_verifier(password):
         intermediate1 = 0
 
         # IF (Verifier BITWISE AND 0x4000) is 0x0000
-        if verifier & 0x4000 != 0x0000:
+        if verifier & 0x4000 == 0x0000:
             intermediate1 = 0
             # SET Intermediate1 TO 0
         # ELSE
@@ -34,6 +36,7 @@ def create_password_verifier(password):
             # SET Intermediate1 TO 1
             intermediate1 = 1
         # ENDIF
+        
         # SET Intermediate2 TO Verifier MULTIPLED BY 2
         intermediate2 = verifier * 2
         # SET most significant bit of Intermediate2 TO 0 #will come back to
@@ -41,11 +44,10 @@ def create_password_verifier(password):
         # SET Intermediate3 TO Intermediate1 BITWISE OR Intermediate2
         intermediate3 = intermediate1 ^ intermediate2
         # SET Verifier TO Intermediate3 BITWISE XOR PasswordByte
-        print(type(intermediate3))
         verifier = intermediate3 ^ password_byte
 
         # ENDFOR
-    print(password_byte)
+    print(type(password_byte))
 
     # RETURN Verifier BITWISE XOR 0xCE4B
     return verifier ^ 0xCE4B
@@ -68,14 +70,14 @@ def create_xor_array_method1(password):
     # IF Index MODULO 2 IS 1
     if index % 2 == 1:
         # SET Temp TO most significant byte of XorKey
-        temp = setMSBto0  # set temp to msb of xor_key
+        temp = setMSBto0(xor_key)  # set temp to msb of xor_key
         # SET ObfuscationArray[Index] TO XorRor(PadArray[0], Temp)
         temp_obfuscation_array[index] = xor_ror(list(PadArray)[0], temp)
         # DECREMENT Index
         index -= 1
         # SET Temp TO least significant byte of XorKey
         # temp = lsb of xor_key
-        temp = xor_key.findLSB()
+        temp = xor_key.findLSB(xor_key)
         # SET PasswordLastChar TO Password[Password.Length MINUS 1]
         password_last_char = password[len(password) - 1]
         # SET ObfuscationArray[Index] TO XorRor(PasswordLastChar, Temp)
@@ -87,7 +89,7 @@ def create_xor_array_method1(password):
         # DECREMENT Index
         index -= 1
         # SET Temp TO most significant byte of XorKey
-        temp = setMSBto0
+        temp = setMSBto0(xor_key)
         # SET ObfuscationArray[Index] TO XorRor(Password[Index], Temp)
         temp_obfuscation_array[index] = xor_ror(password[index], temp)
 
@@ -260,5 +262,4 @@ def setMSBto0(n):
 
 if __name__ == "__main__":
     # password = os.system("python3 office2john.py easypasswd.xlsx")
-
-    print(create_password_verifier("testpassword"))
+    create_password_verifier(password)
