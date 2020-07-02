@@ -21,7 +21,7 @@ def create_password_verifier(password):
     password_array = bytearray()
 
     password_array.append(len(password))
-    password_array.extend(password.encode("utf-8"))
+    password_array.extend(password)
 
     # FOR EACH PasswordByte IN PasswordArray IN REVERSE ORDER
     for password_byte in reversed(password_array):
@@ -47,7 +47,7 @@ def create_password_verifier(password):
         verifier = intermediate3 ^ password_byte
 
         # ENDFOR
-    print(type(password_byte))
+    
 
     # RETURN Verifier BITWISE XOR 0xCE4B
     return verifier ^ 0xCE4B
