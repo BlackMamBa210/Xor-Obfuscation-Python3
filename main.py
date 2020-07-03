@@ -9,8 +9,8 @@ import numpy as np
 from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
 password = list(bytes(b"7e0da6b9673ca827556506d7332df0b25cd62504d3e94e265f445ce9285bb85b7384933c14128384c8c9a770688fba6c"))
-print(password)
 
+print(password)
 
 # FUNCTION CreatePasswordVerifier_Method1 PARAMETERS Password
 def create_password_verifier(password):
@@ -21,7 +21,7 @@ def create_password_verifier(password):
     password_array = bytearray()
 
     password_array.append(len(password))
-    password_array.extend(password)
+    password_array.(password)
 
     # FOR EACH PasswordByte IN PasswordArray IN REVERSE ORDER
     for password_byte in reversed(password_array):
@@ -96,7 +96,7 @@ def create_xor_array_method1(password):
         # DECREMENT Index
         index -= 1
         # SET Temp TO least significant byte of XorKey
-        temp = findLSB
+        temp = findLSB(xor_key)
         # SET ObfuscationArray[Index] TO XorRor(Password[Index], Temp)
         temp_obfuscation_array[index] = xor_ror(password[index], temp)
 
@@ -262,4 +262,13 @@ def setMSBto0(n):
 
 if __name__ == "__main__":
     # password = os.system("python3 office2john.py easypasswd.xlsx")
-    create_password_verifier(password)
+    print(create_password_verifier(password))
+    print(create_xor_array_method1(password))
+    print(create_xor_key_method1(password))
+    print(xor_ror(byte1, byte2))
+    print(ror(byte))
+    print(encrypt_data(password, data, XorArrayIndex))
+    print(decrypt_data_method1(password, data, XorArrayIndex))
+    print(findMsb(n))
+    print(findLSB(n))
+    print(setMSBto0(n))
