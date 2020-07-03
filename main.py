@@ -79,7 +79,7 @@ def create_xor_array_method1(password):
         index -= 1
         # SET Temp TO least significant byte of XorKey
         # temp = lsb of xor_key
-        temp = xor_key.findLSB(xor_key)
+        temp = findMsb(xor_key)
         # SET PasswordLastChar TO Password[Password.Length MINUS 1]
         password_last_char = password[len(password) - 1]
         # SET ObfuscationArray[Index] TO XorRor(PasswordLastChar, Temp)
