@@ -24,7 +24,7 @@ def create_password_verifier(password):
     password_array = bytearray()
 
     password_array.append(len(password))
-    password_array.(password)
+    password_array.append(password)
 
     # FOR EACH PasswordByte IN PasswordArray IN REVERSE ORDER
     for password_byte in reversed(password_array):
