@@ -9,12 +9,15 @@ import numpy as np
 
 from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
-password = list(
+password = str(list(
     bytes(
         b"7e0da6b9673ca827556506d7332df0b25cd62504d3e94e265f445ce9285bb85b7384933c14128384c8c9a770688fba6c"
     )
-)
-
+))
+password = password.replace(" ", "").replace(",", "")
+length = len(password)
+print(password)
+print(length)
 # FUNCTION CreatePasswordVerifier_Method1 PARAMETERS Password
 def create_password_verifier(password):
     # SET Verifier TO 0x0000
