@@ -9,15 +9,12 @@ import numpy as np
 
 from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
-password = str(list(
+password = list(
     bytes(
         b"7e0da6b9673ca827556506d7332df0b25cd62504d3e94e265f445ce9285bb85b7384933c14128384c8c9a770688fba6c"
     )
-))
-password = password.replace(" ", "").replace(",", "")
-length = len(password)
-print(password)
-print(length)
+)
+
 # FUNCTION CreatePasswordVerifier_Method1 PARAMETERS Password
 def create_password_verifier(password):
     # SET Verifier TO 0x0000
@@ -142,7 +139,7 @@ def create_xor_array_method1(password):
 # DECLARE XorKey AS 16-bit unsigned integer
 def create_xor_key_method1(password):
     # SET XorKey TO InitialCode[Password.Length MINUS 1]
-    xor_key = list(InitialCode)[len(password) - 1]  # cant get rid of this error
+    xor_key = list(InitialCode)[len(password) - 1] 
 
     # SET CurrentElement TO 0x00000068
     current_element = 0x00000068
@@ -181,15 +178,21 @@ def xor_ror(byte1, byte2):
 # FUNCTION Ror
 # PARAMETERS byte
 # RETURNS 8-bit unsigned integer
-def ror(byte):
+def ror(byte): #byte is not being manipulated
+    print(byte)
     # SET temp1 TO byte DIVIDED BY 2
     temp1 = byte / 2
+    print(byte)
+    print(byte.bit_length())
     # SET temp2 TO byte MULTIPLIED BY 128
     temp2 = byte * 128
+    print(byte)
+    print(byte.bit_length())
     # SET temp3 TO temp1 BITWISE OR temp2
     temp3 = temp1 | temp2
     # RETURN temp3 MODULO 0x100
     return temp3 % 0x100
+    
 
 
 # END FUNCTION
@@ -270,4 +273,3 @@ if __name__ == "__main__":
     # password = os.system("python3 office2john.py easypasswd.xlsx")
     # print(create_password_verifier(password).bit_length())
     print(create_xor_array_method1("myPassword")[0].bit_length())
-
