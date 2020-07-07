@@ -11,7 +11,7 @@ from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
 password = list(
     bytes(
-        b"7e0da6b9673ca827556506d7332df0b25cd62504d3e94e265f445ce9285bb85b7384933c14128384c8c9a770688fba6c"
+        b"myPassword"
     )
 )
 
@@ -179,19 +179,16 @@ def xor_ror(byte1, byte2):
 # PARAMETERS byte
 # RETURNS 8-bit unsigned integer
 def ror(byte): #byte is not being manipulated
-    print(byte)
     # SET temp1 TO byte DIVIDED BY 2
     temp1 = byte / 2
-    print(byte)
-    print(byte.bit_length())
     # SET temp2 TO byte MULTIPLIED BY 128
     temp2 = byte * 128
-    print(byte)
-    print(byte.bit_length())
     # SET temp3 TO temp1 BITWISE OR temp2
-    temp3 = temp1 | temp2
+    temp3 = int(temp1) | temp2
+    
     # RETURN temp3 MODULO 0x100
     return temp3 % 0x100
+    
     
 
 
@@ -273,3 +270,4 @@ if __name__ == "__main__":
     # password = os.system("python3 office2john.py easypasswd.xlsx")
     # print(create_password_verifier(password).bit_length())
     print(create_xor_array_method1("myPassword")[0].bit_length())
+    print(create_password_verifier(password)[0].bit_length())
