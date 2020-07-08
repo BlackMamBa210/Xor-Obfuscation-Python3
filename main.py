@@ -6,24 +6,25 @@ import binascii
 import operator
 import numpy as np
 import bitstring
+import subprocess
 from bitstring import BitArray 
 from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
-password_bytes = list(
-    bytes(
-        bin(sys.argv[1])
-    )
-)
+# password = list(
+#     bytes(
+#         bin(ord(sys.argv[0]))
+#     )
+# )
 
-ascii_password = []
+#ascii_password = []
 
-for i in password_bytes:
-    x = binascii.unhexlify('%x' % i)
-    y = str(x).lstrip('b')
-    ascii_password.append(y.replace("'", ""))
+# for i in password_bytes:
+#     x = binascii.unhexlify('%x' % i)
+#     y = str(x).lstrip('b')
+#     ascii_password.append(y.replace("'", ""))
 
-password = ''.join(ascii_password)
-print(password)
+# password = ''.join(ascii_password)
+# print(password)
 
 
 # FUNCTION CreatePasswordVerifier_Method1 PARAMETERS Password
@@ -32,8 +33,7 @@ def create_password_verifier(password):
     verifier = 0x0000
 
     # SET PasswordArray TO (empty array of bytes)
-    password_array = bytearray()
-
+    password_array = []
     password_array.append(len(password))
     password_array.append(password)
 
@@ -58,7 +58,7 @@ def create_password_verifier(password):
         # SET Intermediate3 TO Intermediate1 BITWISE OR Intermediate2
         intermediate3 = intermediate1 ^ intermediate2
         # SET Verifier TO Intermediate3 BITWISE XOR PasswordByte
-        verifier = intermediate3 ^ password_byte
+        verifier = intermediate3 ^ ord(password_byte)
 
         # ENDFOR
 
@@ -286,8 +286,14 @@ def setMSBto0(n):
 
 
 if __name__ == "__main__":
-    # password = os.system("python3 office2john.py easypasswd.xlsx")
+    # password = os.system("python3 office2john.py test1.xls")
     # print(create_password_verifier(password).bit_length())
-    b = BitArray(bin = create_xor_array_method1("myPassword")[0])
-    print(int(b.uint).bit_length())
-    #print(create_password_verifier(password)[0].bit_length())
+    # b = BitArray(bin = create_xor_array_method1("myPassword")[0])
+    # print(int(b.uint).bit_length())
+    excel_filename = sys.argv[1]
+    office2john_command = "python3 office2john.py {}".format(excel_filename)
+    #hash_vefifier = os.system(office2john_command)
+    direct_output = str(subprocess.check_output(office2john_command, shell=True)).split('*')[-3:]
+    hash_vefifier = ''.join(direct_output).split(":")[0]
+    create_password_verifier(hash_vefifier)
+
