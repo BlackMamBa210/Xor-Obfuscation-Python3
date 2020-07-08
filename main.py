@@ -2,18 +2,29 @@
 import os
 import sys
 import office2john
-import bitstring
+import binascii
 import operator
 import numpy as np
-
-
+import bitstring
+from bitstring import BitArray 
 from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
-password = list(
+password_bytes = list(
     bytes(
-        b"myPassword"
+        bin(sys.argv[1])
     )
 )
+
+ascii_password = []
+
+for i in password_bytes:
+    x = binascii.unhexlify('%x' % i)
+    y = str(x).lstrip('b')
+    ascii_password.append(y.replace("'", ""))
+
+password = ''.join(ascii_password)
+print(password)
+
 
 # FUNCTION CreatePasswordVerifier_Method1 PARAMETERS Password
 def create_password_verifier(password):
@@ -170,8 +181,19 @@ def create_xor_key_method1(password):
 # RETURNS 8-bit unsigned integer
 def xor_ror(byte1, byte2):
     # RETURN Ror(byte1 XOR byte2)
-    return ror(byte1 ^ byte2)
-
+    if type(byte1) == int:
+        pass
+    else:
+        byte1 = int(ord(byte1))
+        
+    if type(byte2) == int:
+        pass
+    else:
+        byte2 = int(ord(byte2))
+        
+    byte3 = bin(byte1 ^ byte2)
+    return byte3
+    
 
 # END FUNCTION
 
@@ -189,9 +211,6 @@ def ror(byte): #byte is not being manipulated
     # RETURN temp3 MODULO 0x100
     return temp3 % 0x100
     
-    
-
-
 # END FUNCTION
 
 # def encrypt_data(password, data, XorArrayIndex):
@@ -269,5 +288,6 @@ def setMSBto0(n):
 if __name__ == "__main__":
     # password = os.system("python3 office2john.py easypasswd.xlsx")
     # print(create_password_verifier(password).bit_length())
-    print(create_xor_array_method1("myPassword")[0].bit_length())
-    print(create_password_verifier(password)[0].bit_length())
+    b = BitArray(bin = create_xor_array_method1("myPassword")[0])
+    print(int(b.uint).bit_length())
+    #print(create_password_verifier(password)[0].bit_length())
