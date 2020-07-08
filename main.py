@@ -12,7 +12,7 @@ from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
 # password = list(
 #     bytes(
-#         bin(ord(sys.argv[0]))
+#         bin(ord(sys.argv[1]))
 #     )
 # )
 
@@ -31,16 +31,22 @@ from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 def create_password_verifier(password):
     # SET Verifier TO 0x0000
     verifier = 0x0000
-
+    print(verifier)
     # SET PasswordArray TO (empty array of bytes)
     password_array = []
+    print(password_array)
     password_array.append(len(password))
+    print(password_array)
     password_array.append(password)
+    password_array.reverse()
+    print(password_array)
+    
+
 
     # FOR EACH PasswordByte IN PasswordArray IN REVERSE ORDER
-    for password_byte in reversed(password_array):
+    for password_byte in password_array:
         intermediate1 = 0
-
+        print(password_byte)
         # IF (Verifier BITWISE AND 0x4000) is 0x0000
         if verifier & 0x4000 == 0x0000:
             intermediate1 = 0
@@ -58,7 +64,7 @@ def create_password_verifier(password):
         # SET Intermediate3 TO Intermediate1 BITWISE OR Intermediate2
         intermediate3 = intermediate1 ^ intermediate2
         # SET Verifier TO Intermediate3 BITWISE XOR PasswordByte
-        verifier = intermediate3 ^ ord(password_byte)
+        verifier = intermediate3 ^ password_byte
 
         # ENDFOR
 
