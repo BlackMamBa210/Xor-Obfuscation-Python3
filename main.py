@@ -10,21 +10,21 @@ import subprocess
 from bitstring import BitArray 
 from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
-# password = list(
-#     bytes(
-#         bin(ord(sys.argv[1]))
-#     )
-# )
+password = list(
+    bytes(
+        bin(ord(sys.argv[1]))
+    )
+)
 
-#ascii_password = []
+ascii_password = []
 
-# for i in password_bytes:
-#     x = binascii.unhexlify('%x' % i)
-#     y = str(x).lstrip('b')
-#     ascii_password.append(y.replace("'", ""))
+for i in password_bytes:
+    x = binascii.unhexlify('%x' % i)
+    y = str(x).lstrip('b')
+    ascii_password.append(y.replace("'", ""))
 
-# password = ''.join(ascii_password)
-# print(password)
+password = ''.join(ascii_password)
+print(password)
 
 
 # FUNCTION CreatePasswordVerifier_Method1 PARAMETERS Password
@@ -33,11 +33,13 @@ def create_password_verifier(password):
     verifier = 0x0000
     print(verifier)
     # SET PasswordArray TO (empty array of bytes)
-    password_array = []
+    password_array = bytearray()
     print(password_array)
     password_array.append(len(password))
     print(password_array)
     password_array.append(password)
+    print(type(password_array))
+    print(password_array)
     password_array.reverse()
     print(password_array)
     
@@ -296,10 +298,10 @@ if __name__ == "__main__":
     # print(create_password_verifier(password).bit_length())
     # b = BitArray(bin = create_xor_array_method1("myPassword")[0])
     # print(int(b.uint).bit_length())
-    excel_filename = sys.argv[1]
-    office2john_command = "python3 office2john.py {}".format(excel_filename)
-    #hash_vefifier = os.system(office2john_command)
-    direct_output = str(subprocess.check_output(office2john_command, shell=True)).split('*')[-3:]
-    hash_vefifier = ''.join(direct_output).split(":")[0]
-    create_password_verifier(hash_vefifier)
+    # excel_filename = sys.argv[1]
+    # office2john_command = "python3 office2john.py {}".format(excel_filename)
+    # #hash_vefifier = os.system(office2john_command)
+    # direct_output = str(subprocess.check_output(office2john_command, shell=True)).split('*')[-3:]
+    # hash_vefifier = ''.join(direct_output).split(":")[0]
+    # create_password_verifier(hash_vefifier)
 
