@@ -239,7 +239,7 @@ def encrypt_data(password, data, XorArrayIndex):
     xor_array = create_xor_array_method1(password)
 
     # FOR Index FROM 0 TO Data.Length
-    for index in len(data):
+    for index in range(len(data)):
         # SET Value TO Data[Index]
         value = data[index]
         # SET Value TO (Value rotate left 5 bits)
@@ -327,8 +327,8 @@ if __name__ == "__main__":
     # ascii_password = split(direct_output[0])
     # for i in ascii_password:
     #     hash_password(i)
-    create_password_verifier(hash_verifier)
-    print(create_password_verifier)
+    # create_password_verifier(hash_verifier)
+    # print(create_password_verifier)
 
     # create_xor_array_method1(hash_verifier[0])
     # print(create_xor_array_method1)
@@ -336,11 +336,11 @@ if __name__ == "__main__":
     # create_xor_key_method1(hash_verifier[0])
     # print(create_xor_key_method1)
 
-    # xor_ror(hash_verifier[0], hash_verifier[1])
+    # xor_ror(hash_verifier[0], hash_verifier[0])
     # print(xor_ror)
 
-    # ror(hash_verifier[0])
+    # ror(hash_verifier[2])
     # print(ror)
 
-    # encrypt_data(hash_verifier[0], data, XorArrayIndex)
-    # print(encrypt_data)
+    encrypt_data(hash_verifier[0], data, XorArrayIndex)
+    print(encrypt_data)
