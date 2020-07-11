@@ -10,38 +10,43 @@ import subprocess
 from bitstring import BitArray 
 from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
-password = list(
-    bytes(
-        bin(ord(sys.argv[1]))
-    )
-)
+# ascii_password = []
 
-ascii_password = []
 
-for i in password_bytes:
-    x = binascii.unhexlify('%x' % i)
-    y = str(x).lstrip('b')
-    ascii_password.append(y.replace("'", ""))
+# def split(word): 
+# 	return [char for char in word]
 
-password = ''.join(ascii_password)
-print(password)
+ 
+
+# def hash_password(hash):
+#     password = bytearray(content[current_pos:(final_pos)], 'utf8')
+
+#     for i in password:
+#         x = binascii.unhexlify('%x' % i)
+#         y = str(x).lstrip('b')
+#         ascii_password.append(y.replace("'", ""))
+
+#         password = ''.join(ascii_password)
+        #print(password)
+
 
 
 # FUNCTION CreatePasswordVerifier_Method1 PARAMETERS Password
 def create_password_verifier(password):
     # SET Verifier TO 0x0000
     verifier = 0x0000
-    print(verifier)
+    # print(verifier)
     # SET PasswordArray TO (empty array of bytes)
     password_array = bytearray()
-    print(password_array)
+    # print(password_array)
     password_array.append(len(password))
-    print(password_array)
-    password_array.append(password)
-    print(type(password_array))
+    # print(password_array)
+    password = binascii.unhexlify(password)
+    password_array.extend(password)
+    # print(type(password_array))
     print(password_array)
     password_array.reverse()
-    print(password_array)
+    # print(password_array)
     
 
 
@@ -210,11 +215,11 @@ def xor_ror(byte1, byte2):
 # RETURNS 8-bit unsigned integer
 def ror(byte): #byte is not being manipulated
     # SET temp1 TO byte DIVIDED BY 2
-    temp1 = byte / 2
+    temp1 = int(byte) / 2
     # SET temp2 TO byte MULTIPLIED BY 128
     temp2 = byte * 128
     # SET temp3 TO temp1 BITWISE OR temp2
-    temp3 = int(temp1) | temp2
+    temp3 = int(temp1) | int(temp2)
     
     # RETURN temp3 MODULO 0x100
     return temp3 % 0x100
@@ -222,12 +227,19 @@ def ror(byte): #byte is not being manipulated
 # END FUNCTION
 
 # def encrypt_data(password, data, XorArrayIndex):
+data = bytearray(8)
+# print(data)
+
+XorArrayIndex = np.uint8(1)
+unsigned_XorArrayIndex = XorArrayIndex + 2**32
+# print(XorArrayIndex)
+
 def encrypt_data(password, data, XorArrayIndex):
     # SET XorArray TO CreateXorArray_Method1(Password)
     xor_array = create_xor_array_method1(password)
 
     # FOR Index FROM 0 TO Data.Length
-    for index in data.length:
+    for index in len(data):
         # SET Value TO Data[Index]
         value = data[index]
         # SET Value TO (Value rotate left 5 bits)
@@ -298,10 +310,37 @@ if __name__ == "__main__":
     # print(create_password_verifier(password).bit_length())
     # b = BitArray(bin = create_xor_array_method1("myPassword")[0])
     # print(int(b.uint).bit_length())
-    # excel_filename = sys.argv[1]
-    # office2john_command = "python3 office2john.py {}".format(excel_filename)
-    # #hash_vefifier = os.system(office2john_command)
-    # direct_output = str(subprocess.check_output(office2john_command, shell=True)).split('*')[-3:]
-    # hash_vefifier = ''.join(direct_output).split(":")[0]
-    # create_password_verifier(hash_vefifier)
+    excel_filename = sys.argv[1]
+    # print(excel_filename)
 
+    office2john_command = "python3 office2john.py {}".format(excel_filename)
+    # print(office2john_command)
+
+    hash_verifier = os.system(office2john_command)
+    # print(hash_verifier)
+
+    direct_output = str(subprocess.check_output(office2john_command, shell=True)).split('*')[-3:]
+    # print(direct_output)
+    # print(direct_output[0])
+    hash_verifier = ''.join(direct_output).split(":")[0]
+    # print('DEBUG: hash_verifier =' + ' ' + hash_verifier)
+    # ascii_password = split(direct_output[0])
+    # for i in ascii_password:
+    #     hash_password(i)
+    create_password_verifier(hash_verifier)
+    print(create_password_verifier)
+
+    # create_xor_array_method1(hash_verifier[0])
+    # print(create_xor_array_method1)
+
+    # create_xor_key_method1(hash_verifier[0])
+    # print(create_xor_key_method1)
+
+    # xor_ror(hash_verifier[0], hash_verifier[1])
+    # print(xor_ror)
+
+    # ror(hash_verifier[0])
+    # print(ror)
+
+    # encrypt_data(hash_verifier[0], data, XorArrayIndex)
+    # print(encrypt_data)
