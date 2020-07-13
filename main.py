@@ -3,20 +3,20 @@ import os
 import sys
 import office2john
 import binascii
-import operator
 import numpy as np
 import bitstring
+from termcolor import colored
+from inspect import currentframe, getframeinfo
 import subprocess
-from bitstring import BitArray 
+from bitstring import BitArray
 from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
 # ascii_password = []
 
 
-# def split(word): 
+# def split(word):
 # 	return [char for char in word]
 
- 
 
 # def hash_password(hash):
 #     password = bytearray(content[current_pos:(final_pos)], 'utf8')
@@ -27,33 +27,36 @@ from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 #         ascii_password.append(y.replace("'", ""))
 
 #         password = ''.join(ascii_password)
-        #print(password)
+# log(password)
 
+frameinfo = getframeinfo(currentframe())
+
+
+def log(value):
+    line_formatted = "line:{}".format(frameinfo.lineno)
+    print(colored(value, "yellow"), colored(line_formatted, "blue"))
 
 
 # FUNCTION CreatePasswordVerifier_Method1 PARAMETERS Password
 def create_password_verifier(password):
     # SET Verifier TO 0x0000
     verifier = 0x0000
-    # print(verifier)
+    # log(verifier)
     # SET PasswordArray TO (empty array of bytes)
     password_array = bytearray()
-    # print(password_array)
+    # log(password_array)
     password_array.append(len(password))
-    # print(password_array)
+    # log(password_array)
     password = binascii.unhexlify(password)
     password_array.extend(password)
-    # print(type(password_array))
-    print(password_array)
+    # log(type(password_array))
     password_array.reverse()
-    # print(password_array)
-    
-
+    # log(password_array)
 
     # FOR EACH PasswordByte IN PasswordArray IN REVERSE ORDER
     for password_byte in password_array:
         intermediate1 = 0
-        print(password_byte)
+        log(password_byte)
         # IF (Verifier BITWISE AND 0x4000) is 0x0000
         if verifier & 0x4000 == 0x0000:
             intermediate1 = 0
@@ -163,7 +166,7 @@ def create_xor_array_method1(password):
 # DECLARE XorKey AS 16-bit unsigned integer
 def create_xor_key_method1(password):
     # SET XorKey TO InitialCode[Password.Length MINUS 1]
-    xor_key = list(InitialCode)[len(password) - 1] 
+    xor_key = list(InitialCode)[len(password) - 1]
 
     # SET CurrentElement TO 0x00000068
     current_element = 0x00000068
@@ -198,41 +201,43 @@ def xor_ror(byte1, byte2):
         pass
     else:
         byte1 = int(ord(byte1))
-        
+
     if type(byte2) == int:
         pass
     else:
         byte2 = int(ord(byte2))
-        
+
     byte3 = bin(byte1 ^ byte2)
     return byte3
-    
+
 
 # END FUNCTION
 
 # FUNCTION Ror
 # PARAMETERS byte
 # RETURNS 8-bit unsigned integer
-def ror(byte): #byte is not being manipulated
+def ror(byte):  # byte is not being manipulated
     # SET temp1 TO byte DIVIDED BY 2
     temp1 = int(byte) / 2
     # SET temp2 TO byte MULTIPLIED BY 128
     temp2 = byte * 128
     # SET temp3 TO temp1 BITWISE OR temp2
     temp3 = int(temp1) | int(temp2)
-    
+
     # RETURN temp3 MODULO 0x100
     return temp3 % 0x100
-    
+
+
 # END FUNCTION
 
 # def encrypt_data(password, data, XorArrayIndex):
 data = bytearray(8)
-# print(data)
+# log(data)
 
 XorArrayIndex = np.uint8(1)
-unsigned_XorArrayIndex = XorArrayIndex + 2**32
-# print(XorArrayIndex)
+unsigned_XorArrayIndex = XorArrayIndex + 2 ** 32
+# log(XorArrayIndex)
+
 
 def encrypt_data(password, data, XorArrayIndex):
     # SET XorArray TO CreateXorArray_Method1(Password)
@@ -307,40 +312,42 @@ def setMSBto0(n):
 
 if __name__ == "__main__":
     # password = os.system("python3 office2john.py test1.xls")
-    # print(create_password_verifier(password).bit_length())
+    # log(create_password_verifier(password).bit_length())
     # b = BitArray(bin = create_xor_array_method1("myPassword")[0])
-    # print(int(b.uint).bit_length())
+    # log(int(b.uint).bit_length())
     excel_filename = sys.argv[1]
-    # print(excel_filename)
+    # log(excel_filename)
 
     office2john_command = "python3 office2john.py {}".format(excel_filename)
-    # print(office2john_command)
+    # log(office2john_command)
 
     hash_verifier = os.system(office2john_command)
-    # print(hash_verifier)
+    # log(hash_verifier)
 
-    direct_output = str(subprocess.check_output(office2john_command, shell=True)).split('*')[-3:]
-    # print(direct_output)
-    # print(direct_output[0])
-    hash_verifier = ''.join(direct_output).split(":")[0]
-    # print('DEBUG: hash_verifier =' + ' ' + hash_verifier)
+    direct_output = str(subprocess.check_output(office2john_command, shell=True)).split(
+        "*"
+    )[-3:]
+    # log(direct_output)
+    # log(direct_output[0])
+    hash_verifier = "".join(direct_output).split(":")[0]
+    # log('DEBUG: hash_verifier =' + ' ' + hash_verifier)
     # ascii_password = split(direct_output[0])
     # for i in ascii_password:
     #     hash_password(i)
     # create_password_verifier(hash_verifier)
-    # print(create_password_verifier)
+    # log(create_password_verifier)
 
     # create_xor_array_method1(hash_verifier[0])
-    # print(create_xor_array_method1)
+    # log(create_xor_array_method1)
 
     # create_xor_key_method1(hash_verifier[0])
-    # print(create_xor_key_method1)
+    # log(create_xor_key_method1)
 
     # xor_ror(hash_verifier[0], hash_verifier[0])
-    # print(xor_ror)
+    # log(xor_ror)
 
     # ror(hash_verifier[2])
-    # print(ror)
+    # log(ror)
 
     encrypt_data(hash_verifier[0], data, XorArrayIndex)
-    print(encrypt_data)
+    log(encrypt_data)
