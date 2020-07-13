@@ -264,7 +264,7 @@ def decrypt_data_method1(password, data, XorArrayIndex):
     # SET XorArray TO CreateXorArray_Method1(Password)
     xor_array = create_xor_array_method1(password)
     # FOR Index FROM 0 to Data.Length
-    for index in data.length:
+    for index in len(data):
         # SET Value TO Data[Index]
         value = data[index]
         # SET Value TO (Value rotate right 5 bits)
@@ -342,5 +342,8 @@ if __name__ == "__main__":
     # ror(hash_verifier[2])
     # print(ror)
 
-    encrypt_data(hash_verifier[0], data, XorArrayIndex)
-    print(encrypt_data)
+    # encrypt_data(hash_verifier[0], data, XorArrayIndex)
+    # print(encrypt_data)
+
+    decrypt_data_method1(hash_verifier[0], data, XorArrayIndex)
+    print(decrypt_data_method1)
