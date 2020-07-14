@@ -30,7 +30,7 @@ InitialCode = [ 0xE1F0,
                 0x280C, 
                 0xA96A, 
                 0x4EC3
-                ]
+              ]
 
 XorMatrix = [ 0xAEFC, 
               0x4DD9,
