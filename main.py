@@ -29,11 +29,12 @@ from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 #         password = ''.join(ascii_password)
 # log(password)
 
-frameinfo = getframeinfo(currentframe())
+
 
 
 def log(value):
-    line_formatted = "line:{}".format(frameinfo.lineno)
+    frameinfo = currentframe()
+    line_formatted = "line:{}".format(frameinfo.f_back.f_lineno)
     print(colored(value, "yellow"), colored(line_formatted, "blue"))
 
 
@@ -56,7 +57,7 @@ def create_password_verifier(password):
     # FOR EACH PasswordByte IN PasswordArray IN REVERSE ORDER
     for password_byte in password_array:
         intermediate1 = 0
-        log(password_byte)
+        # log(password_byte)
         # IF (Verifier BITWISE AND 0x4000) is 0x0000
         if verifier & 0x4000 == 0x0000:
             intermediate1 = 0
@@ -163,8 +164,11 @@ def create_xor_array_method1(password):
 # FUNCTION CreateXorKey_Method1
 # PARAMETERS Password
 # RETURNS 16-bit unsigned integer
-# DECLARE XorKey AS 16-bit unsigned integer
 def create_xor_key_method1(password):
+    # DECLARE XorKey AS 16-bit unsigned integer
+    xor_key = np.uint16(16)
+    unsigned_xor_key = xor_key + 2 ** 32
+    log(unsigned_xor_key)
     # SET XorKey TO InitialCode[Password.Length MINUS 1]
     xor_key = list(InitialCode)[len(password) - 1]
 
@@ -207,7 +211,7 @@ def xor_ror(byte1, byte2):
     else:
         byte2 = int(ord(byte2))
 
-    byte3 = bin(byte1 ^ byte2)
+    byte3 = byte1 ^ byte2
     return byte3
 
 
@@ -231,10 +235,9 @@ def ror(byte):  # byte is not being manipulated
 # END FUNCTION
 
 # def encrypt_data(password, data, XorArrayIndex):
-data = bytearray(8)
 # log(data)
 
-XorArrayIndex = np.uint8(1)
+XorArrayIndex = np.uint8(0)
 unsigned_XorArrayIndex = XorArrayIndex + 2 ** 32
 # log(XorArrayIndex)
 
@@ -272,17 +275,24 @@ def decrypt_data_method1(password, data, XorArrayIndex):
     for index in range(len(data)):
         # SET Value TO Data[Index]
         value = data[index]
+        log(value)
+        # SET Value TO Value BITWISE XOR XorArray[XorArrayIndex]
+        log(xor_array)
+        log(XorArrayIndex)
+        value = value ^ xor_array[XorArrayIndex]
         # SET Value TO (Value rotate right 5 bits)
-        value >> 5
+        value = value >> 5
+        log(value)
+        log(type(value))
         # SET Data[Index] TO Value
-        data[index] = value
+        data[index] = bin(value)
 
         # INCREMENT XorArrayIndex
         XorArrayIndex += 1
         # SET XorArrayIndex TO XorArrayIndex MODULO 16
         XorArrayIndex = XorArrayIndex % 16
     # END FOR
-
+    return data
 
 # END FUNCTION
 
@@ -335,13 +345,13 @@ if __name__ == "__main__":
     # for i in ascii_password:
     #     hash_password(i)
     # create_password_verifier(hash_verifier)
-    # log(create_password_verifier)
+    # log(create_password_verifier(hash_verifier).bit_length())
 
     # create_xor_array_method1(hash_verifier[0])
-    # log(create_xor_array_method1)
+    # log(create_xor_array_method1(hash_verifier))
 
     # create_xor_key_method1(hash_verifier[0])
-    # log(create_xor_key_method1)
+    log(create_xor_key_method1(hash_verifier))
 
     # xor_ror(hash_verifier[0], hash_verifier[0])
     # log(xor_ror)
@@ -351,6 +361,5 @@ if __name__ == "__main__":
 
     # encrypt_data(hash_verifier[0], data, XorArrayIndex)
     # print(encrypt_data)
-
-    decrypt_data_method1(hash_verifier[0], data, XorArrayIndex)
-    log(decrypt_data_method1)
+    # decrypt_result = decrypt_data_method1(hash_verifier, data, XorArrayIndex)
+    # log(decrypt_result)
