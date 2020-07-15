@@ -29,7 +29,7 @@ from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 #         password = ''.join(ascii_password)
 # log(password)
 
-
+password = 'password123'
 
 
 def log(value):
@@ -344,7 +344,7 @@ if __name__ == "__main__":
     # for i in ascii_password:
     #     hash_password(i)
     # create_password_verifier(hash_verifier)
-    # log(create_password_verifier(hash_verifier).bit_length())
+    log(create_password_verifier(password))
     # log(hash_verifier)
     # log(direct_output)
     # log(direct_output[2].split(":")[0])
@@ -353,7 +353,8 @@ if __name__ == "__main__":
     # log(create_xor_array_method1(hash_verifier))
 
     # create_xor_key_method1(hash_verifier[0])
-    log(create_xor_key_method1(hash_verifier))
+    
+    # log(create_xor_key_method1(password))
 
     # xor_ror(hash_verifier[0], hash_verifier[0])
     # log(xor_ror(hash_verifier, hash_verifier))
