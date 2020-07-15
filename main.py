@@ -179,7 +179,7 @@ def create_xor_key_method1(password):
         # IF (Char BITWISE AND 0x40) IS NOT 0
         if char and 0x40 != 0:
             # SET XorKey TO XorKey BITWISE XOR XorMatrix[CurrentElement]
-            xor_key = xor_key | XorMatrix[current_element]
+            xor_key = int(xor_key) | XorMatrix[current_element]
         # END IF
         else:
             # SET Char TO Char MULTIPLIED BY 2
