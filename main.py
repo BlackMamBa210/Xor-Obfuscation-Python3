@@ -1,12 +1,12 @@
 #!/bin/python3
 import os
 import sys
-import office2john
+
 import binascii
-import bitstring
+
 from termcolor import colored
 from inspect import currentframe, getframeinfo
-import subprocess
+
 from bitstring import BitArray
 from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
@@ -82,7 +82,7 @@ def create_xor_array_method1(password):
         # SET Temp TO most significant byte of XorKey
         temp = findMsb(xor_key)  # set temp to msb of xor_key
         # SET ObfuscationArray[Index] TO XorRor(PadArray[0], Temp)
-        temp_obfuscation_array[index] = xor_ror(list(PadArray)[0], temp)
+        temp_obfuscation_array[index] = xor_ror(PadArray[0], temp)
         # DECREMENT Index
         index -= 1
         # SET Temp TO least significant byte of XorKey
@@ -148,7 +148,7 @@ def create_xor_array_method1(password):
 def create_xor_key_method1(password):
     # SET XorKey TO InitialCode[Password.Length MINUS 1]
     xor_key = list(InitialCode)[len(password) - 1]
-    log(xor_key)
+    # log(xor_key)
 
     # SET CurrentElement TO 0x00000068
     current_element = 0x00000068
@@ -248,17 +248,14 @@ def decrypt_data_method1(password, data, XorArrayIndex):
     for index in range(len(data)):
         # SET Value TO Data[Index]
         value = data[index]
-        log(value)
         # SET Value TO Value BITWISE XOR XorArray[XorArrayIndex]
-        log(xor_array)
-        log(XorArrayIndex)
+
         value = value ^ xor_array[XorArrayIndex]
         # SET Value TO (Value rotate right 5 bits)
         value = value >> 5
-        log(value)
-        log(type(value))
+
         # SET Data[Index] TO Value
-        data[index] = bin(value)
+        data[index] = int(value)
 
         # INCREMENT XorArrayIndex
         XorArrayIndex += 1
@@ -294,21 +291,15 @@ def setMSBto0(n):
 
 
 if __name__ == "__main__":
-    # password = os.system("python3 office2john.py test1.xls")
-    # log(create_password_verifier(password).bit_length())
-    # b = BitArray(bin = create_xor_array_method1("myPassword")[0])
-    # log(int(b.uint).bit_length())
     excel_filename = sys.argv[1]
-    # log(excel_filename)
+    data = []
+    with open(excel_filename, "rb") as f:
+        while (byte := f.read(1)) :
+            data.append(int.from_bytes(byte, byteorder="big"))
 
-    office2john_command = "python3 office2john.py {}".format(excel_filename)
-
-    hash_verifier = os.system(office2john_command)
-
-    direct_output = str(subprocess.check_output(office2john_command, shell=True)).split(
-        "*"
-    )[-3:]
-
-    hash_verifier = "".join(direct_output).split(":")[0]
-
-    log(create_password_verifier(password))
+    decrypted_data = decrypt_data_method1("password123", data, 0)
+    log(bytearray(decrypted_data))
+    #     # make file
+    # newFile = open("filename.txt", "wb")
+    # # write to file
+    # newFile.write(newFileBytes)
