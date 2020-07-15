@@ -11,24 +11,6 @@ import subprocess
 from bitstring import BitArray
 from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
-# ascii_password = []
-
-
-# def split(word):
-# 	return [char for char in word]
-
-
-# def hash_password(hash):
-#     password = bytearray(content[current_pos:(final_pos)], 'utf8')
-
-#     for i in password:
-#         x = binascii.unhexlify('%x' % i)
-#         y = str(x).lstrip('b')
-#         ascii_password.append(y.replace("'", ""))
-
-#         password = ''.join(ascii_password)
-# log(password)
-
 password = 'password123'
 
 
@@ -167,7 +149,7 @@ def create_xor_array_method1(password):
 # DECLARE XorKey AS 16-bit unsigned integer
 def create_xor_key_method1(password):
     # SET XorKey TO InitialCode[Password.Length MINUS 1]
-    xor_key = list(InitialCode)
+    xor_key = list(InitialCode)[len(password) - 1]
     log(xor_key)
 
     # SET CurrentElement TO 0x00000068
@@ -250,7 +232,7 @@ def encrypt_data(password, data, XorArrayIndex):
         # SET Value TO Data[Index]
         value = data[index]
         # SET Value TO (Value rotate left 5 bits)
-        value << 5
+        value = value << 5
         # SET Value TO Value BITWISE XOR XorArray[XorArrayIndex]
         value = value ^ xor_array[XorArrayIndex]
         # SET DATA[Index] TO Value
@@ -340,30 +322,5 @@ if __name__ == "__main__":
     # log(direct_output[0])
     hash_verifier = "".join(direct_output).split(":")[0]
     # log('DEBUG: hash_verifier =' + ' ' + hash_verifier)
-    # ascii_password = split(direct_output[0])
-    # for i in ascii_password:
-    #     hash_password(i)
-    # create_password_verifier(hash_verifier)
-    log(create_password_verifier(password))
-    # log(hash_verifier)
-    # log(direct_output)
-    # log(direct_output[2].split(":")[0])
 
-    # create_xor_array_method1(hash_verifier[0])
-    # log(create_xor_array_method1(hash_verifier))
-
-    # create_xor_key_method1(hash_verifier[0])
-    
-    # log(create_xor_key_method1(password))
-
-    # xor_ror(hash_verifier[0], hash_verifier[0])
-    # log(xor_ror(hash_verifier, hash_verifier))
-
-    # ror(hash_verifier[2])
-    # log(ror(hash_verifier))
-
-    # encrypt_data(hash_verifier[0], data, XorArrayIndex)
-    # log(encrypt_data(hash_verifier, data, XorArrayIndex))
-    # decrypt_result = decrypt_data_method1(hash_verifier, data, XorArrayIndex)
-    # log(decrypt_result)
-    # log(encrypt_data(password, data, XorArrayIndex))
+    encrypt_data(password, excel_filename, XorArrayIndex)
