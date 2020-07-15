@@ -168,7 +168,7 @@ def create_xor_array_method1(password):
 def create_xor_key_method1(password):
     # SET XorKey TO InitialCode[Password.Length MINUS 1]
     xor_key = list(InitialCode)
-    log(bxor_key)
+    log(xor_key)
 
     # SET CurrentElement TO 0x00000068
     current_element = 0x00000068
