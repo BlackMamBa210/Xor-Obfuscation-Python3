@@ -3,7 +3,6 @@ import os
 import sys
 import office2john
 import binascii
-import numpy as np
 import bitstring
 from termcolor import colored
 from inspect import currentframe, getframeinfo
@@ -323,4 +322,4 @@ if __name__ == "__main__":
     hash_verifier = "".join(direct_output).split(":")[0]
     # log('DEBUG: hash_verifier =' + ' ' + hash_verifier)
 
-    encrypt_data(password, excel_filename, XorArrayIndex)
+    # encrypt_data(password, excel_filename, XorArrayIndex)
