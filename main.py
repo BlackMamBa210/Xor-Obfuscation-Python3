@@ -10,7 +10,7 @@ import subprocess
 from bitstring import BitArray
 from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
-password = "password123"
+password = 'password123'
 
 
 def log(value):
@@ -23,10 +23,13 @@ def log(value):
 def create_password_verifier(password):
     # SET Verifier TO 0x0000
     verifier = 0x0000
+
     # SET PasswordArray TO (empty array of bytes)
     password_array = bytearray()
-    log(password_array)
+
+    # SET PasswordArray[0] TO Password.Length
     password_array.append(len(password))
+    
     # log(password_array)
     # password = binascii.unhexlify(password)
     password_array.extend(int(password))
@@ -209,13 +212,8 @@ def ror(byte):  # byte is not being manipulated
 
 # END FUNCTION
 
-<<<<<<< HEAD
 # def encrypt_data(password, data, XorArrayIndex):
 data = bytearray(8)
-=======
-XorArrayIndex = 0
-
->>>>>>> 764f65d488922e1b0e83b492af8537a6afc127f1
 
 def encrypt_data(password, data, XorArrayIndex):
     # SET XorArray TO CreateXorArray_Method1(Password)
@@ -269,7 +267,6 @@ def decrypt_data_method1(password, data, XorArrayIndex):
     # END FOR
     return data
 
-
 # END FUNCTION
 
 
@@ -297,8 +294,11 @@ def setMSBto0(n):
 
 
 if __name__ == "__main__":
+    # password = os.system("python3 office2john.py test1.xls")
+    # log(create_password_verifier(password).bit_length())
+    # b = BitArray(bin = create_xor_array_method1("myPassword")[0])
+    # log(int(b.uint).bit_length())
     excel_filename = sys.argv[1]
-<<<<<<< HEAD
     # log(excel_filename)
 
     office2john_command = "python3 office2john.py {}".format(excel_filename)
@@ -312,12 +312,3 @@ if __name__ == "__main__":
     hash_verifier = "".join(direct_output).split(":")[0]
 
     log(create_password_verifier(password))
-=======
-    data = []
-    with open(excel_filename, "rb") as f:
-        while (byte := f.read(1)) :
-            data.append(int.from_bytes(byte, byteorder="big"))
-
-    log(data)
-    # encrypt_data(password, excel_filename, XorArrayIndex)
->>>>>>> 764f65d488922e1b0e83b492af8537a6afc127f1
