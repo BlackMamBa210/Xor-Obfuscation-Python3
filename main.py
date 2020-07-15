@@ -10,7 +10,7 @@ import subprocess
 from bitstring import BitArray
 from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
-password = 'password123'
+password = "password123"
 
 
 def log(value):
@@ -213,13 +213,7 @@ def ror(byte):  # byte is not being manipulated
 
 # END FUNCTION
 
-# def encrypt_data(password, data, XorArrayIndex):
-data = bytearray(8)
-# log(data)
-
-XorArrayIndex = np.uint8(0)
-unsigned_XorArrayIndex = XorArrayIndex + 2 ** 32
-# log(XorArrayIndex)
+XorArrayIndex = 0
 
 
 def encrypt_data(password, data, XorArrayIndex):
@@ -274,6 +268,7 @@ def decrypt_data_method1(password, data, XorArrayIndex):
     # END FOR
     return data
 
+
 # END FUNCTION
 
 
@@ -301,25 +296,11 @@ def setMSBto0(n):
 
 
 if __name__ == "__main__":
-    # password = os.system("python3 office2john.py test1.xls")
-    # log(create_password_verifier(password).bit_length())
-    # b = BitArray(bin = create_xor_array_method1("myPassword")[0])
-    # log(int(b.uint).bit_length())
     excel_filename = sys.argv[1]
-    # log(excel_filename)
+    data = []
+    with open(excel_filename, "rb") as f:
+        while (byte := f.read(1)) :
+            data.append(int.from_bytes(byte, byteorder="big"))
 
-    office2john_command = "python3 office2john.py {}".format(excel_filename)
-    # log(office2john_command)
-
-    hash_verifier = os.system(office2john_command)
-    # log(hash_verifier)
-
-    direct_output = str(subprocess.check_output(office2john_command, shell=True)).split(
-        "*"
-    )[-3:]
-    # log(direct_output)
-    # log(direct_output[0])
-    hash_verifier = "".join(direct_output).split(":")[0]
-    # log('DEBUG: hash_verifier =' + ' ' + hash_verifier)
-
+    log(data)
     # encrypt_data(password, excel_filename, XorArrayIndex)
