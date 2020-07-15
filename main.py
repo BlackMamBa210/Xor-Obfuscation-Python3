@@ -164,13 +164,11 @@ def create_xor_array_method1(password):
 # FUNCTION CreateXorKey_Method1
 # PARAMETERS Password
 # RETURNS 16-bit unsigned integer
+# DECLARE XorKey AS 16-bit unsigned integer
 def create_xor_key_method1(password):
-    # DECLARE XorKey AS 16-bit unsigned integer
-    xor_key = np.uint16(16)
-    unsigned_xor_key = xor_key + 2 ** 32
-    log(unsigned_xor_key)
     # SET XorKey TO InitialCode[Password.Length MINUS 1]
-    xor_key = list(InitialCode)[len(password) - 1]
+    xor_key = list(InitialCode)
+    log(bxor_key)
 
     # SET CurrentElement TO 0x00000068
     current_element = 0x00000068
@@ -235,6 +233,7 @@ def ror(byte):  # byte is not being manipulated
 # END FUNCTION
 
 # def encrypt_data(password, data, XorArrayIndex):
+data = bytearray(8)
 # log(data)
 
 XorArrayIndex = np.uint8(0)
@@ -346,6 +345,9 @@ if __name__ == "__main__":
     #     hash_password(i)
     # create_password_verifier(hash_verifier)
     # log(create_password_verifier(hash_verifier).bit_length())
+    # log(hash_verifier)
+    # log(direct_output)
+    # log(direct_output[2].split(":")[0])
 
     # create_xor_array_method1(hash_verifier[0])
     # log(create_xor_array_method1(hash_verifier))
@@ -354,12 +356,13 @@ if __name__ == "__main__":
     log(create_xor_key_method1(hash_verifier))
 
     # xor_ror(hash_verifier[0], hash_verifier[0])
-    # log(xor_ror)
+    # log(xor_ror(hash_verifier, hash_verifier))
 
     # ror(hash_verifier[2])
-    # log(ror)
+    # log(ror(hash_verifier))
 
     # encrypt_data(hash_verifier[0], data, XorArrayIndex)
-    # print(encrypt_data)
+    # log(encrypt_data(hash_verifier, data, XorArrayIndex))
     # decrypt_result = decrypt_data_method1(hash_verifier, data, XorArrayIndex)
     # log(decrypt_result)
+    # log(encrypt_data(password, data, XorArrayIndex))
