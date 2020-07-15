@@ -10,7 +10,7 @@ import subprocess
 from bitstring import BitArray
 from arrays import obfuscation_array, InitialCode, XorMatrix, PadArray
 
-password = 'password123'
+password = "password123"
 
 
 def log(value):
@@ -23,14 +23,13 @@ def log(value):
 def create_password_verifier(password):
     # SET Verifier TO 0x0000
     verifier = 0x0000
-    # log(verifier)
     # SET PasswordArray TO (empty array of bytes)
     password_array = bytearray()
-    # log(password_array)
+    log(password_array)
     password_array.append(len(password))
     # log(password_array)
-    password = binascii.unhexlify(password)
-    password_array.extend(password)
+    # password = binascii.unhexlify(password)
+    password_array.extend(int(password))
     # log(type(password_array))
     password_array.reverse()
     # log(password_array)
@@ -38,7 +37,6 @@ def create_password_verifier(password):
     # FOR EACH PasswordByte IN PasswordArray IN REVERSE ORDER
     for password_byte in password_array:
         intermediate1 = 0
-        # log(password_byte)
         # IF (Verifier BITWISE AND 0x4000) is 0x0000
         if verifier & 0x4000 == 0x0000:
             intermediate1 = 0
@@ -69,8 +67,6 @@ def create_password_verifier(password):
 # FUNCTION CreateXorArray_Method1
 # PARAMETERS Password
 # RETURNS array of 8-bit unsigned integers
-# DECLARE XorKey AS 16-bit unsigned integer
-# DECLARE ObfuscationArray AS array of 8-bit unsigned integers
 def create_xor_array_method1(password):
     # SET XorKey TO CreateXorKey_Method1(Password)
     xor_key = create_xor_key_method1(password)
@@ -213,14 +209,13 @@ def ror(byte):  # byte is not being manipulated
 
 # END FUNCTION
 
+<<<<<<< HEAD
 # def encrypt_data(password, data, XorArrayIndex):
 data = bytearray(8)
-# log(data)
+=======
+XorArrayIndex = 0
 
-XorArrayIndex = np.uint8(0)
-unsigned_XorArrayIndex = XorArrayIndex + 2 ** 32
-# log(XorArrayIndex)
-
+>>>>>>> 764f65d488922e1b0e83b492af8537a6afc127f1
 
 def encrypt_data(password, data, XorArrayIndex):
     # SET XorArray TO CreateXorArray_Method1(Password)
@@ -274,6 +269,7 @@ def decrypt_data_method1(password, data, XorArrayIndex):
     # END FOR
     return data
 
+
 # END FUNCTION
 
 
@@ -301,25 +297,27 @@ def setMSBto0(n):
 
 
 if __name__ == "__main__":
-    # password = os.system("python3 office2john.py test1.xls")
-    # log(create_password_verifier(password).bit_length())
-    # b = BitArray(bin = create_xor_array_method1("myPassword")[0])
-    # log(int(b.uint).bit_length())
     excel_filename = sys.argv[1]
+<<<<<<< HEAD
     # log(excel_filename)
 
     office2john_command = "python3 office2john.py {}".format(excel_filename)
-    # log(office2john_command)
 
     hash_verifier = os.system(office2john_command)
-    # log(hash_verifier)
 
     direct_output = str(subprocess.check_output(office2john_command, shell=True)).split(
         "*"
     )[-3:]
-    # log(direct_output)
-    # log(direct_output[0])
-    hash_verifier = "".join(direct_output).split(":")[0]
-    # log('DEBUG: hash_verifier =' + ' ' + hash_verifier)
 
+    hash_verifier = "".join(direct_output).split(":")[0]
+
+    log(create_password_verifier(password))
+=======
+    data = []
+    with open(excel_filename, "rb") as f:
+        while (byte := f.read(1)) :
+            data.append(int.from_bytes(byte, byteorder="big"))
+
+    log(data)
     # encrypt_data(password, excel_filename, XorArrayIndex)
+>>>>>>> 764f65d488922e1b0e83b492af8537a6afc127f1
