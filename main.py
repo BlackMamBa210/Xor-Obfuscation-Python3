@@ -26,16 +26,13 @@ def create_password_verifier(password):
 
     # SET PasswordArray TO (empty array of bytes)
     password_array = bytearray()
-
+    
     # SET PasswordArray[0] TO Password.Length
     password_array.append(len(password))
-    
     # log(password_array)
-    # password = binascii.unhexlify(password)
-    password_array.extend(int(password))
-    # log(type(password_array))
+
+    password_array.extend(password)
     password_array.reverse()
-    # log(password_array)
 
     # FOR EACH PasswordByte IN PasswordArray IN REVERSE ORDER
     for password_byte in password_array:
@@ -73,23 +70,30 @@ def create_password_verifier(password):
 def create_xor_array_method1(password):
     # SET XorKey TO CreateXorKey_Method1(Password)
     xor_key = create_xor_key_method1(password)
+
     # SET Index TO Password.Length
     index = len(password)
+
     temp_obfuscation_array = list(obfuscation_array)
 
     # IF Index MODULO 2 IS 1
     if index % 2 == 1:
         # SET Temp TO most significant byte of XorKey
         temp = findMsb(xor_key)  # set temp to msb of xor_key
+
         # SET ObfuscationArray[Index] TO XorRor(PadArray[0], Temp)
         temp_obfuscation_array[index] = xor_ror(PadArray[0], temp)
+
         # DECREMENT Index
         index -= 1
+
         # SET Temp TO least significant byte of XorKey
         # temp = lsb of xor_key
-        temp = findMsb(xor_key)
+        temp = findLSB(xor_key)
+
         # SET PasswordLastChar TO Password[Password.Length MINUS 1]
         password_last_char = password[len(password) - 1]
+
         # SET ObfuscationArray[Index] TO XorRor(PasswordLastChar, Temp)
         temp_obfuscation_array[index] = xor_ror(password_last_char, temp)
 
@@ -98,41 +102,55 @@ def create_xor_array_method1(password):
     while index > 0:
         # DECREMENT Index
         index -= 1
+
         # SET Temp TO most significant byte of XorKey
         temp = findMsb(xor_key)
+
         byte_password_at_index = ord(password[index])
+
         # SET ObfuscationArray[Index] TO XorRor(Password[Index], Temp)
         temp_obfuscation_array[index] = xor_ror(byte_password_at_index, temp)
 
         # DECREMENT Index
         index -= 1
+
         # SET Temp TO least significant byte of XorKey
         temp = findLSB(xor_key)
+
         # SET ObfuscationArray[Index] TO XorRor(Password[Index], Temp)
         temp_obfuscation_array[index] = xor_ror(password[index], temp)
 
         # END WHILE
+
     # SET Index TO 15
-    index == 15
+    index = 15
+
     # SET PadIndex TO 15 MINUS Password.Length
     pad_index = 15 - len(password)
+
     # WHILE PadIndex IS greater than 0
     while pad_index > 0:
         # SET Temp TO most significant byte of XorKey
         temp = findMsb(xor_key)
+
         # SET ObfuscationArray[Index] TO XorRor(PadArray[PadIndex], Temp
         obfuscation_array[index] = xor_ror(PadArray[pad_index], temp)
+
         # DECREMENT Index
         index -= 1
+
         # DECREMENT PadIndex
         pad_index -= 1
 
         # SET Temp TO least significant byte of XorKey
         temp = findLSB(xor_key)
+
         # SET ObfuscationArray[Index] TO XorRor(PadArray[PadIndex], Temp)
         obfuscation_array[index] = xor_ror(PadArray[pad_index], temp)
+
         # DECREMENT Index
         index -= 1
+
         # DECREMENT PadIndex
         pad_index -= 1
 
@@ -159,7 +177,7 @@ def create_xor_key_method1(password):
         # IF (Char BITWISE AND 0x40) IS NOT 0
         if char and 0x40 != 0:
             # SET XorKey TO XorKey BITWISE XOR XorMatrix[CurrentElement]
-            xor_key = int(xor_key) | XorMatrix[current_element]
+            xor_key = int(xor_key) ^ XorMatrix[current_element]
         # END IF
         else:
             # SET Char TO Char MULTIPLIED BY 2
@@ -198,7 +216,10 @@ def xor_ror(byte1, byte2):
 # FUNCTION Ror
 # PARAMETERS byte
 # RETURNS 8-bit unsigned integer
+
+
 def ror(byte):  # byte is not being manipulated
+
     # SET temp1 TO byte DIVIDED BY 2
     temp1 = int(byte) / 2
     # SET temp2 TO byte MULTIPLIED BY 128
@@ -298,8 +319,13 @@ if __name__ == "__main__":
             data.append(int.from_bytes(byte, byteorder="big"))
 
     decrypted_data = decrypt_data_method1("password123", data, 0)
-    log(bytearray(decrypted_data))
+    # log(decrypted_data)
+    # log(bytearray(decrypted_data))
     #     # make file
     # newFile = open("filename.txt", "wb")
     # # write to file
     # newFile.write(newFileBytes)
+    # log(create_password_verifier(password))
+    # log(create_xor_array_method1(password))
+    # log(create_xor_key_method1(password))
+    
