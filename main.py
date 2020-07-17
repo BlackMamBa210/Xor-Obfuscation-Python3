@@ -23,15 +23,19 @@ def log(value):
 def create_password_verifier(password):
     # SET Verifier TO 0x0000
     verifier = 0x0000
+    log(verifier)
 
     # SET PasswordArray TO (empty array of bytes)
     password_array = bytearray()
-    
+    log(password_array)
+
     # SET PasswordArray[0] TO Password.Length
     password_array.append(len(password))
-    # log(password_array)
+    log(password_array)
 
-    password_array.extend(password)
+    # APPEND Password TO PasswordArray
+    password_array.append(int(password))
+
     password_array.reverse()
 
     # FOR EACH PasswordByte IN PasswordArray IN REVERSE ORDER
@@ -325,7 +329,7 @@ if __name__ == "__main__":
     # newFile = open("filename.txt", "wb")
     # # write to file
     # newFile.write(newFileBytes)
-    # log(create_password_verifier(password))
+    log(create_password_verifier(password))
     # log(create_xor_array_method1(password))
     # log(create_xor_key_method1(password))
     
