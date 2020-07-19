@@ -252,4 +252,3 @@ if __name__ == "__main__":
     log(create_password_verifier(password))
     # log(create_xor_array_method1(password))
     # log(create_xor_key_method1(password))
-
